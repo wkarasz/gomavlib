@@ -1,4 +1,4 @@
-module github.com/aler9/gomavlib
+module github.com/wkarasz/gomavlib
 
 go 1.12
 

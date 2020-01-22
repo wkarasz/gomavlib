@@ -5,7 +5,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/aler9/gomavlib"
+	"github.com/wkarasz/gomavlib"
 )
 
 // this is a custom message.

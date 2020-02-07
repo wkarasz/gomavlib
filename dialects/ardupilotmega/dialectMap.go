@@ -1,6 +1,6 @@
 package ardupilotmega
 
-mavCmdMap := map[string]int{
+const MavCmdMap = map[string]int{
 
 	// Navigate to waypoint.
 	"MAV_CMD_NAV_WAYPOINT":16,

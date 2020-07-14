@@ -1,19 +1,16 @@
 package gomavlib
 
-import (
-	"fmt"
-)
-
 type channelAccepter struct {
 	n   *Node
 	eca endpointChannelAccepter
 }
 
-func newChannelAccepter(n *Node, eca endpointChannelAccepter) (*channelAccepter, error) {
-	return &channelAccepter{
+func newChannelAccepter(n *Node, eca endpointChannelAccepter) *channelAccepter {
+	ca := &channelAccepter{
 		n:   n,
 		eca: eca,
-	}, nil
+	}
+	return ca
 }
 
 func (ca *channelAccepter) close() {
@@ -30,11 +27,7 @@ func (ca *channelAccepter) run() {
 			break
 		}
 
-		ch, err := newChannel(ca.n, ca.eca, label, rwc)
-		if err != nil {
-			panic(fmt.Errorf("newChannel unexpected error: %s", err))
-		}
-
+		ch := newChannel(ca.n, ca.eca, label, rwc)
 		ca.n.eventsIn <- &eventInChannelNew{ch}
 	}
 }

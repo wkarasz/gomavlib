@@ -87,7 +87,7 @@ func (conf EndpointUdpBroadcast) init() (Endpoint, error) {
 		conf:          conf,
 		packetConn:    packetConn,
 		broadcastAddr: &net.UDPAddr{IP: broadcastIp, Port: iport},
-		terminate:     make(chan struct{}),
+		terminate:     make(chan struct{}, 1),
 	}
 	return t, nil
 }
@@ -103,7 +103,7 @@ func (t *endpointUdpBroadcast) Label() string {
 }
 
 func (t *endpointUdpBroadcast) Close() error {
-	close(t.terminate)
+	t.terminate <- struct{}{}
 	t.packetConn.Close()
 	return nil
 }

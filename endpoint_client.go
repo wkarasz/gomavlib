@@ -69,7 +69,7 @@ func initEndpointClient(conf endpointClientConf) (Endpoint, error) {
 
 	t := &endpointClient{
 		conf:      conf,
-		terminate: make(chan struct{}),
+		terminate: make(chan struct{}, 1),
 		readChan:  make(chan []byte),
 		readDone:  make(chan struct{}),
 	}
@@ -96,7 +96,7 @@ func (t *endpointClient) Label() string {
 }
 
 func (t *endpointClient) Close() error {
-	close(t.terminate)
+	t.terminate <- struct{}{}
 	return nil
 }
 
@@ -117,10 +117,8 @@ func (t *endpointClient) do() {
 		// in UDP, the only possible error is a DNS failure
 		// in TCP, the handshake must be completed
 		var rawConn net.Conn
-		dialDone := make(chan struct{})
+		dialDone := make(chan struct{}, 1)
 		go func() {
-			defer close(dialDone)
-
 			var network string
 			if t.conf.isUdp() == true {
 				network = "udp4"
@@ -132,6 +130,7 @@ func (t *endpointClient) do() {
 			if err != nil {
 				rawConn = nil // ensure rawConn is nil in case of error
 			}
+			dialDone <- struct{}{}
 		}()
 
 		select {
@@ -162,8 +161,7 @@ func (t *endpointClient) do() {
 		var err error
 		cycleDone := make(chan struct{})
 		go func() {
-			defer close(cycleDone)
-
+			defer func() { cycleDone <- struct{}{} }()
 			for {
 				n, err = conn.Read(buf)
 				if err != nil {

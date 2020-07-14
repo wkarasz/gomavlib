@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-var casesCRC = []struct {
+var testCasesCRC = []struct {
 	msg Message
 	crc byte
 }{
@@ -42,14 +42,14 @@ var casesCRC = []struct {
 }
 
 func TestDialectCRC(t *testing.T) {
-	for _, c := range casesCRC {
+	for _, c := range testCasesCRC {
 		mp, err := newDialectMessage(c.msg)
 		require.NoError(t, err)
 		require.Equal(t, c.crc, mp.crcExtra)
 	}
 }
 
-var casesMsgs = []struct {
+var testCasesMsgs = []struct {
 	name   string
 	isV2   bool
 	parsed Message
@@ -210,7 +210,7 @@ var casesMsgs = []struct {
 }
 
 func TestDialectDecode(t *testing.T) {
-	for _, c := range casesMsgs {
+	for _, c := range testCasesMsgs {
 		t.Run(c.name, func(t *testing.T) {
 			mp, err := newDialectMessage(c.parsed)
 			require.NoError(t, err)
@@ -222,7 +222,7 @@ func TestDialectDecode(t *testing.T) {
 }
 
 func TestDialectEncode(t *testing.T) {
-	for _, c := range casesMsgs {
+	for _, c := range testCasesMsgs {
 		t.Run(c.name, func(t *testing.T) {
 			mp, err := newDialectMessage(c.parsed)
 			require.NoError(t, err)

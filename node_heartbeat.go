@@ -29,14 +29,14 @@ func newNodeHeartbeat(n *Node) *nodeHeartbeat {
 
 	h := &nodeHeartbeat{
 		n:         n,
-		terminate: make(chan struct{}),
+		terminate: make(chan struct{}, 1),
 	}
 
 	return h
 }
 
 func (h *nodeHeartbeat) close() {
-	close(h.terminate)
+	h.terminate <- struct{}{}
 }
 
 func (h *nodeHeartbeat) run() {

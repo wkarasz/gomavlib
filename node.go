@@ -56,16 +56,6 @@ const (
 	_NET_WRITE_TIMEOUT    = 10 * time.Second
 )
 
-// Version allows to set the frame version used to wrap outgoing messages.
-type Version int
-
-const (
-	// V2 wrap outgoing messages in v2 frames.
-	V2 Version = iota
-	// V1 wrap outgoing messages in v1 frames.
-	V1
-)
-
 type goroutinePool sync.WaitGroup
 
 type goroutinePoolRunnable interface {

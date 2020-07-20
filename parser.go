@@ -12,6 +12,24 @@ import (
 // 1st January 2015 GMT
 var signatureReferenceDate = time.Date(2015, 01, 01, 0, 0, 0, 0, time.UTC)
 
+// Version is the Mavlink version of a frame
+type Version int
+
+const (
+	// V2 is a Mavlink 2.0 frame
+	V2 Version = 2
+	// V1 is a Mavlink 1.0 frame
+	V1 Version = 1
+)
+
+// String implements fmt.Stringer and returns the version label.
+func (v Version) String() string {
+	if v == V1 {
+		return "V1"
+	}
+	return "V2"
+}
+
 // ParserError is the error returned in case of non-fatal parsing errors.
 type ParserError struct {
 	str string
@@ -42,6 +60,9 @@ type ParserConf struct {
 	// Non-signed frames are discarded. This feature requires Mavlink v2.
 	InKey *Key
 
+	// Mavlink version used to encode messages. See Version
+	// for the available options.
+	OutVersion Version
 	// the system id, added to every outgoing frame and used to identify this
 	// node in the network.
 	OutSystemId byte
@@ -72,11 +93,17 @@ func NewParser(conf ParserConf) (*Parser, error) {
 	if conf.Writer == nil {
 		return nil, fmt.Errorf("writer not provided")
 	}
+	if conf.OutVersion == 0 {
+		return nil, fmt.Errorf("OutVersion not provided")
+	}
 	if conf.OutSystemId < 1 {
 		return nil, fmt.Errorf("SystemId must be >= 1")
 	}
 	if conf.OutComponentId < 1 {
 		conf.OutComponentId = 1
+	}
+	if conf.OutKey != nil && conf.OutVersion != V2 {
+		return nil, fmt.Errorf("OutKey requires V2 frames")
 	}
 
 	p := &Parser{

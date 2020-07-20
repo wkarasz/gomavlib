@@ -26,6 +26,7 @@ func newChannel(n *Node, e Endpoint, label string, rwc io.ReadWriteCloser) *Chan
 		Dialect:            n.conf.Dialect,
 		InKey:              n.conf.InKey,
 		OutSystemId:        n.conf.OutSystemId,
+		OutVersion:         n.conf.OutVersion,
 		OutComponentId:     n.conf.OutComponentId,
 		OutSignatureLinkId: randomByte(),
 		OutKey:             n.conf.OutKey,

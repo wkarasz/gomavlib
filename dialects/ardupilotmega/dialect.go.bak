@@ -2,10 +2,10 @@
 //
 // Generated from revision https://github.com/mavlink/mavlink/tree/263efc2111cdf5a48bd3663a3e3bc17bc19b441a
 //
-package paparazzi
+package ardupilotmega
 
 import (
-	"github.com/aler9/gomavlib"
+	"github.com/wkarasz/gomavlib"
 )
 
 // Dialect contains the dialect object that can be passed to the library.
@@ -206,13 +206,96 @@ var dialect = gomavlib.MustDialect(3, []gomavlib.Message{
 	&MessageOpenDroneIdSystem{},
 	&MessageOpenDroneIdOperatorId{},
 	&MessageOpenDroneIdMessagePack{},
-	// paparazzi.xml
-	&MessageScriptItem{},
-	&MessageScriptRequest{},
-	&MessageScriptRequestList{},
-	&MessageScriptCount{},
-	&MessageScriptCurrent{},
+	// uAvionix.xml
+	&MessageUavionixAdsbOutCfg{},
+	&MessageUavionixAdsbOutDynamic{},
+	&MessageUavionixAdsbTransceiverHealthReport{},
+	// icarous.xml
+	&MessageIcarousHeartbeat{},
+	&MessageIcarousKinematicBands{},
+	// ardupilotmega.xml
+	&MessageSensorOffsets{},
+	&MessageSetMagOffsets{},
+	&MessageMeminfo{},
+	&MessageApAdc{},
+	&MessageDigicamConfigure{},
+	&MessageDigicamControl{},
+	&MessageMountConfigure{},
+	&MessageMountControl{},
+	&MessageMountStatus{},
+	&MessageFencePoint{},
+	&MessageFenceFetchPoint{},
+	&MessageAhrs{},
+	&MessageSimstate{},
+	&MessageHwstatus{},
+	&MessageRadio{},
+	&MessageLimitsStatus{},
+	&MessageWind{},
+	&MessageData16{},
+	&MessageData32{},
+	&MessageData64{},
+	&MessageData96{},
+	&MessageRangefinder{},
+	&MessageAirspeedAutocal{},
+	&MessageRallyPoint{},
+	&MessageRallyFetchPoint{},
+	&MessageCompassmotStatus{},
+	&MessageAhrs2{},
+	&MessageCameraStatus{},
+	&MessageCameraFeedback{},
+	&MessageBattery2{},
+	&MessageAhrs3{},
+	&MessageAutopilotVersionRequest{},
+	&MessageRemoteLogDataBlock{},
+	&MessageRemoteLogBlockStatus{},
+	&MessageLedControl{},
+	&MessageMagCalProgress{},
+	&MessageMagCalReport{},
+	&MessageEkfStatusReport{},
+	&MessagePidTuning{},
+	&MessageDeepstall{},
+	&MessageGimbalReport{},
+	&MessageGimbalControl{},
+	&MessageGimbalTorqueCmdReport{},
+	&MessageGoproHeartbeat{},
+	&MessageGoproGetRequest{},
+	&MessageGoproGetResponse{},
+	&MessageGoproSetRequest{},
+	&MessageGoproSetResponse{},
+	&MessageRpm{},
+	&MessageDeviceOpRead{},
+	&MessageDeviceOpReadReply{},
+	&MessageDeviceOpWrite{},
+	&MessageDeviceOpWriteReply{},
+	&MessageAdapTuning{},
+	&MessageVisionPositionDelta{},
+	&MessageAoaSsa{},
+	&MessageEscTelemetry_1To_4{},
+	&MessageEscTelemetry_5To_8{},
+	&MessageEscTelemetry_9To_12{},
 })
+
+//
+type ACCELCAL_VEHICLE_POS int
+
+const (
+	//
+	ACCELCAL_VEHICLE_POS_LEVEL ACCELCAL_VEHICLE_POS = 1
+	//
+	ACCELCAL_VEHICLE_POS_LEFT ACCELCAL_VEHICLE_POS = 2
+	//
+	ACCELCAL_VEHICLE_POS_RIGHT ACCELCAL_VEHICLE_POS = 3
+	//
+	ACCELCAL_VEHICLE_POS_NOSEDOWN ACCELCAL_VEHICLE_POS = 4
+	//
+	ACCELCAL_VEHICLE_POS_NOSEUP ACCELCAL_VEHICLE_POS = 5
+	//
+	ACCELCAL_VEHICLE_POS_BACK ACCELCAL_VEHICLE_POS = 6
+	//
+	ACCELCAL_VEHICLE_POS_SUCCESS ACCELCAL_VEHICLE_POS = 16777215
+	//
+	ACCELCAL_VEHICLE_POS_FAILED ACCELCAL_VEHICLE_POS = 16777216
+)
 
 // Enumeration of the ADSB altimeter types
 type ADSB_ALTITUDE_TYPE int
@@ -596,6 +679,22 @@ const (
 	CAMERA_CAP_FLAGS_HAS_VIDEO_STREAM CAMERA_CAP_FLAGS = 256
 )
 
+//
+type CAMERA_FEEDBACK_FLAGS int
+
+const (
+	// Shooting photos, not video.
+	CAMERA_FEEDBACK_PHOTO CAMERA_FEEDBACK_FLAGS = 0
+	// Shooting video, not stills.
+	CAMERA_FEEDBACK_VIDEO CAMERA_FEEDBACK_FLAGS = 1
+	// Unable to achieve requested exposure (e.g. shutter speed too low).
+	CAMERA_FEEDBACK_BADEXPOSURE CAMERA_FEEDBACK_FLAGS = 2
+	// Closed loop feedback from camera, we know for sure it has successfully taken a picture.
+	CAMERA_FEEDBACK_CLOSEDLOOP CAMERA_FEEDBACK_FLAGS = 3
+	// Open loop camera, an image trigger has been requested but we can't know for sure it has successfully taken a picture.
+	CAMERA_FEEDBACK_OPENLOOP CAMERA_FEEDBACK_FLAGS = 4
+)
+
 // Camera Modes.
 type CAMERA_MODE int
 
@@ -606,6 +705,26 @@ const (
 	CAMERA_MODE_VIDEO CAMERA_MODE = 1
 	// Camera is in image survey capture mode. It allows for camera controller to do specific settings for surveys.
 	CAMERA_MODE_IMAGE_SURVEY CAMERA_MODE = 2
+)
+
+//
+type CAMERA_STATUS_TYPES int
+
+const (
+	// Camera heartbeat, announce camera component ID at 1Hz.
+	CAMERA_STATUS_TYPE_HEARTBEAT CAMERA_STATUS_TYPES = 0
+	// Camera image triggered.
+	CAMERA_STATUS_TYPE_TRIGGER CAMERA_STATUS_TYPES = 1
+	// Camera connection lost.
+	CAMERA_STATUS_TYPE_DISCONNECT CAMERA_STATUS_TYPES = 2
+	// Camera unknown error.
+	CAMERA_STATUS_TYPE_ERROR CAMERA_STATUS_TYPES = 3
+	// Camera battery low. Parameter p1 shows reported voltage.
+	CAMERA_STATUS_TYPE_LOWBATT CAMERA_STATUS_TYPES = 4
+	// Camera storage low. Parameter p1 shows reported shots remaining.
+	CAMERA_STATUS_TYPE_LOWSTORE CAMERA_STATUS_TYPES = 5
+	// Camera storage low. Parameter p1 shows reported video minutes remaining.
+	CAMERA_STATUS_TYPE_LOWSTOREV CAMERA_STATUS_TYPES = 6
 )
 
 // Zoom types for MAV_CMD_SET_CAMERA_ZOOM
@@ -654,6 +773,106 @@ const (
 	COMPONENT_CAP_FLAGS_PARAM COMPONENT_CAP_FLAGS = 1
 	// Component has parameters, and supports the extended parameter protocol (PARAM_EXT messages).
 	COMPONENT_CAP_FLAGS_PARAM_EXT COMPONENT_CAP_FLAGS = 2
+)
+
+// A mapping of copter flight modes for custom_mode field of heartbeat.
+type COPTER_MODE int
+
+const (
+	//
+	COPTER_MODE_STABILIZE COPTER_MODE = 0
+	//
+	COPTER_MODE_ACRO COPTER_MODE = 1
+	//
+	COPTER_MODE_ALT_HOLD COPTER_MODE = 2
+	//
+	COPTER_MODE_AUTO COPTER_MODE = 3
+	//
+	COPTER_MODE_GUIDED COPTER_MODE = 4
+	//
+	COPTER_MODE_LOITER COPTER_MODE = 5
+	//
+	COPTER_MODE_RTL COPTER_MODE = 6
+	//
+	COPTER_MODE_CIRCLE COPTER_MODE = 7
+	//
+	COPTER_MODE_LAND COPTER_MODE = 9
+	//
+	COPTER_MODE_DRIFT COPTER_MODE = 11
+	//
+	COPTER_MODE_SPORT COPTER_MODE = 13
+	//
+	COPTER_MODE_FLIP COPTER_MODE = 14
+	//
+	COPTER_MODE_AUTOTUNE COPTER_MODE = 15
+	//
+	COPTER_MODE_POSHOLD COPTER_MODE = 16
+	//
+	COPTER_MODE_BRAKE COPTER_MODE = 17
+	//
+	COPTER_MODE_THROW COPTER_MODE = 18
+	//
+	COPTER_MODE_AVOID_ADSB COPTER_MODE = 19
+	//
+	COPTER_MODE_GUIDED_NOGPS COPTER_MODE = 20
+	//
+	COPTER_MODE_SMART_RTL COPTER_MODE = 21
+)
+
+// Deepstall flight stage.
+type DEEPSTALL_STAGE int
+
+const (
+	// Flying to the landing point.
+	DEEPSTALL_STAGE_FLY_TO_LANDING DEEPSTALL_STAGE = 0
+	// Building an estimate of the wind.
+	DEEPSTALL_STAGE_ESTIMATE_WIND DEEPSTALL_STAGE = 1
+	// Waiting to breakout of the loiter to fly the approach.
+	DEEPSTALL_STAGE_WAIT_FOR_BREAKOUT DEEPSTALL_STAGE = 2
+	// Flying to the first arc point to turn around to the landing point.
+	DEEPSTALL_STAGE_FLY_TO_ARC DEEPSTALL_STAGE = 3
+	// Turning around back to the deepstall landing point.
+	DEEPSTALL_STAGE_ARC DEEPSTALL_STAGE = 4
+	// Approaching the landing point.
+	DEEPSTALL_STAGE_APPROACH DEEPSTALL_STAGE = 5
+	// Stalling and steering towards the land point.
+	DEEPSTALL_STAGE_LAND DEEPSTALL_STAGE = 6
+)
+
+// Bus types for device operations.
+type DEVICE_OP_BUSTYPE int
+
+const (
+	// I2C Device operation.
+	DEVICE_OP_BUSTYPE_I2C DEVICE_OP_BUSTYPE = 0
+	// SPI Device operation.
+	DEVICE_OP_BUSTYPE_SPI DEVICE_OP_BUSTYPE = 1
+)
+
+// Flags in EKF_STATUS message.
+type EKF_STATUS_FLAGS int
+
+const (
+	// Set if EKF's attitude estimate is good.
+	EKF_ATTITUDE EKF_STATUS_FLAGS = 1
+	// Set if EKF's horizontal velocity estimate is good.
+	EKF_VELOCITY_HORIZ EKF_STATUS_FLAGS = 2
+	// Set if EKF's vertical velocity estimate is good.
+	EKF_VELOCITY_VERT EKF_STATUS_FLAGS = 4
+	// Set if EKF's horizontal position (relative) estimate is good.
+	EKF_POS_HORIZ_REL EKF_STATUS_FLAGS = 8
+	// Set if EKF's horizontal position (absolute) estimate is good.
+	EKF_POS_HORIZ_ABS EKF_STATUS_FLAGS = 16
+	// Set if EKF's vertical position (absolute) estimate is good.
+	EKF_POS_VERT_ABS EKF_STATUS_FLAGS = 32
+	// Set if EKF's vertical position (above ground) estimate is good.
+	EKF_POS_VERT_AGL EKF_STATUS_FLAGS = 64
+	// EKF is in constant position mode and does not know it's absolute or relative position.
+	EKF_CONST_POS_MODE EKF_STATUS_FLAGS = 128
+	// Set if EKF's predicted horizontal position (relative) estimate is good.
+	EKF_PRED_POS_HORIZ_REL EKF_STATUS_FLAGS = 256
+	// Set if EKF's predicted horizontal position (absolute) estimate is good.
+	EKF_PRED_POS_HORIZ_ABS EKF_STATUS_FLAGS = 512
 )
 
 // Flags in EKF_STATUS message
@@ -744,6 +963,392 @@ const (
 	FIRMWARE_VERSION_TYPE_OFFICIAL FIRMWARE_VERSION_TYPE = 255
 )
 
+//
+type GIMBAL_AXIS int
+
+const (
+	// Gimbal yaw axis.
+	GIMBAL_AXIS_YAW GIMBAL_AXIS = 0
+	// Gimbal pitch axis.
+	GIMBAL_AXIS_PITCH GIMBAL_AXIS = 1
+	// Gimbal roll axis.
+	GIMBAL_AXIS_ROLL GIMBAL_AXIS = 2
+)
+
+//
+type GIMBAL_AXIS_CALIBRATION_REQUIRED int
+
+const (
+	// Whether or not this axis requires calibration is unknown at this time.
+	GIMBAL_AXIS_CALIBRATION_REQUIRED_UNKNOWN GIMBAL_AXIS_CALIBRATION_REQUIRED = 0
+	// This axis requires calibration.
+	GIMBAL_AXIS_CALIBRATION_REQUIRED_TRUE GIMBAL_AXIS_CALIBRATION_REQUIRED = 1
+	// This axis does not require calibration.
+	GIMBAL_AXIS_CALIBRATION_REQUIRED_FALSE GIMBAL_AXIS_CALIBRATION_REQUIRED = 2
+)
+
+//
+type GIMBAL_AXIS_CALIBRATION_STATUS int
+
+const (
+	// Axis calibration is in progress.
+	GIMBAL_AXIS_CALIBRATION_STATUS_IN_PROGRESS GIMBAL_AXIS_CALIBRATION_STATUS = 0
+	// Axis calibration succeeded.
+	GIMBAL_AXIS_CALIBRATION_STATUS_SUCCEEDED GIMBAL_AXIS_CALIBRATION_STATUS = 1
+	// Axis calibration failed.
+	GIMBAL_AXIS_CALIBRATION_STATUS_FAILED GIMBAL_AXIS_CALIBRATION_STATUS = 2
+)
+
+//
+type GOPRO_BURST_RATE int
+
+const (
+	// 3 Shots / 1 Second.
+	GOPRO_BURST_RATE_3_IN_1_SECOND GOPRO_BURST_RATE = 0
+	// 5 Shots / 1 Second.
+	GOPRO_BURST_RATE_5_IN_1_SECOND GOPRO_BURST_RATE = 1
+	// 10 Shots / 1 Second.
+	GOPRO_BURST_RATE_10_IN_1_SECOND GOPRO_BURST_RATE = 2
+	// 10 Shots / 2 Second.
+	GOPRO_BURST_RATE_10_IN_2_SECOND GOPRO_BURST_RATE = 3
+	// 10 Shots / 3 Second (Hero 4 Only).
+	GOPRO_BURST_RATE_10_IN_3_SECOND GOPRO_BURST_RATE = 4
+	// 30 Shots / 1 Second.
+	GOPRO_BURST_RATE_30_IN_1_SECOND GOPRO_BURST_RATE = 5
+	// 30 Shots / 2 Second.
+	GOPRO_BURST_RATE_30_IN_2_SECOND GOPRO_BURST_RATE = 6
+	// 30 Shots / 3 Second.
+	GOPRO_BURST_RATE_30_IN_3_SECOND GOPRO_BURST_RATE = 7
+	// 30 Shots / 6 Second.
+	GOPRO_BURST_RATE_30_IN_6_SECOND GOPRO_BURST_RATE = 8
+)
+
+//
+type GOPRO_CAPTURE_MODE int
+
+const (
+	// Video mode.
+	GOPRO_CAPTURE_MODE_VIDEO GOPRO_CAPTURE_MODE = 0
+	// Photo mode.
+	GOPRO_CAPTURE_MODE_PHOTO GOPRO_CAPTURE_MODE = 1
+	// Burst mode, Hero 3+ only.
+	GOPRO_CAPTURE_MODE_BURST GOPRO_CAPTURE_MODE = 2
+	// Time lapse mode, Hero 3+ only.
+	GOPRO_CAPTURE_MODE_TIME_LAPSE GOPRO_CAPTURE_MODE = 3
+	// Multi shot mode, Hero 4 only.
+	GOPRO_CAPTURE_MODE_MULTI_SHOT GOPRO_CAPTURE_MODE = 4
+	// Playback mode, Hero 4 only, silver only except when LCD or HDMI is connected to black.
+	GOPRO_CAPTURE_MODE_PLAYBACK GOPRO_CAPTURE_MODE = 5
+	// Playback mode, Hero 4 only.
+	GOPRO_CAPTURE_MODE_SETUP GOPRO_CAPTURE_MODE = 6
+	// Mode not yet known.
+	GOPRO_CAPTURE_MODE_UNKNOWN GOPRO_CAPTURE_MODE = 255
+)
+
+//
+type GOPRO_CHARGING int
+
+const (
+	// Charging disabled.
+	GOPRO_CHARGING_DISABLED GOPRO_CHARGING = 0
+	// Charging enabled.
+	GOPRO_CHARGING_ENABLED GOPRO_CHARGING = 1
+)
+
+//
+type GOPRO_COMMAND int
+
+const (
+	// (Get/Set).
+	GOPRO_COMMAND_POWER GOPRO_COMMAND = 0
+	// (Get/Set).
+	GOPRO_COMMAND_CAPTURE_MODE GOPRO_COMMAND = 1
+	// (___/Set).
+	GOPRO_COMMAND_SHUTTER GOPRO_COMMAND = 2
+	// (Get/___).
+	GOPRO_COMMAND_BATTERY GOPRO_COMMAND = 3
+	// (Get/___).
+	GOPRO_COMMAND_MODEL GOPRO_COMMAND = 4
+	// (Get/Set).
+	GOPRO_COMMAND_VIDEO_SETTINGS GOPRO_COMMAND = 5
+	// (Get/Set).
+	GOPRO_COMMAND_LOW_LIGHT GOPRO_COMMAND = 6
+	// (Get/Set).
+	GOPRO_COMMAND_PHOTO_RESOLUTION GOPRO_COMMAND = 7
+	// (Get/Set).
+	GOPRO_COMMAND_PHOTO_BURST_RATE GOPRO_COMMAND = 8
+	// (Get/Set).
+	GOPRO_COMMAND_PROTUNE GOPRO_COMMAND = 9
+	// (Get/Set) Hero 3+ Only.
+	GOPRO_COMMAND_PROTUNE_WHITE_BALANCE GOPRO_COMMAND = 10
+	// (Get/Set) Hero 3+ Only.
+	GOPRO_COMMAND_PROTUNE_COLOUR GOPRO_COMMAND = 11
+	// (Get/Set) Hero 3+ Only.
+	GOPRO_COMMAND_PROTUNE_GAIN GOPRO_COMMAND = 12
+	// (Get/Set) Hero 3+ Only.
+	GOPRO_COMMAND_PROTUNE_SHARPNESS GOPRO_COMMAND = 13
+	// (Get/Set) Hero 3+ Only.
+	GOPRO_COMMAND_PROTUNE_EXPOSURE GOPRO_COMMAND = 14
+	// (Get/Set).
+	GOPRO_COMMAND_TIME GOPRO_COMMAND = 15
+	// (Get/Set).
+	GOPRO_COMMAND_CHARGING GOPRO_COMMAND = 16
+)
+
+//
+type GOPRO_FIELD_OF_VIEW int
+
+const (
+	// 0x00: Wide.
+	GOPRO_FIELD_OF_VIEW_WIDE GOPRO_FIELD_OF_VIEW = 0
+	// 0x01: Medium.
+	GOPRO_FIELD_OF_VIEW_MEDIUM GOPRO_FIELD_OF_VIEW = 1
+	// 0x02: Narrow.
+	GOPRO_FIELD_OF_VIEW_NARROW GOPRO_FIELD_OF_VIEW = 2
+)
+
+//
+type GOPRO_FRAME_RATE int
+
+const (
+	// 12 FPS.
+	GOPRO_FRAME_RATE_12 GOPRO_FRAME_RATE = 0
+	// 15 FPS.
+	GOPRO_FRAME_RATE_15 GOPRO_FRAME_RATE = 1
+	// 24 FPS.
+	GOPRO_FRAME_RATE_24 GOPRO_FRAME_RATE = 2
+	// 25 FPS.
+	GOPRO_FRAME_RATE_25 GOPRO_FRAME_RATE = 3
+	// 30 FPS.
+	GOPRO_FRAME_RATE_30 GOPRO_FRAME_RATE = 4
+	// 48 FPS.
+	GOPRO_FRAME_RATE_48 GOPRO_FRAME_RATE = 5
+	// 50 FPS.
+	GOPRO_FRAME_RATE_50 GOPRO_FRAME_RATE = 6
+	// 60 FPS.
+	GOPRO_FRAME_RATE_60 GOPRO_FRAME_RATE = 7
+	// 80 FPS.
+	GOPRO_FRAME_RATE_80 GOPRO_FRAME_RATE = 8
+	// 90 FPS.
+	GOPRO_FRAME_RATE_90 GOPRO_FRAME_RATE = 9
+	// 100 FPS.
+	GOPRO_FRAME_RATE_100 GOPRO_FRAME_RATE = 10
+	// 120 FPS.
+	GOPRO_FRAME_RATE_120 GOPRO_FRAME_RATE = 11
+	// 240 FPS.
+	GOPRO_FRAME_RATE_240 GOPRO_FRAME_RATE = 12
+	// 12.5 FPS.
+	GOPRO_FRAME_RATE_12_5 GOPRO_FRAME_RATE = 13
+)
+
+//
+type GOPRO_HEARTBEAT_FLAGS int
+
+const (
+	// GoPro is currently recording.
+	GOPRO_FLAG_RECORDING GOPRO_HEARTBEAT_FLAGS = 1
+)
+
+//
+type GOPRO_HEARTBEAT_STATUS int
+
+const (
+	// No GoPro connected.
+	GOPRO_HEARTBEAT_STATUS_DISCONNECTED GOPRO_HEARTBEAT_STATUS = 0
+	// The detected GoPro is not HeroBus compatible.
+	GOPRO_HEARTBEAT_STATUS_INCOMPATIBLE GOPRO_HEARTBEAT_STATUS = 1
+	// A HeroBus compatible GoPro is connected.
+	GOPRO_HEARTBEAT_STATUS_CONNECTED GOPRO_HEARTBEAT_STATUS = 2
+	// An unrecoverable error was encountered with the connected GoPro, it may require a power cycle.
+	GOPRO_HEARTBEAT_STATUS_ERROR GOPRO_HEARTBEAT_STATUS = 3
+)
+
+//
+type GOPRO_MODEL int
+
+const (
+	// Unknown gopro model.
+	GOPRO_MODEL_UNKNOWN GOPRO_MODEL = 0
+	// Hero 3+ Silver (HeroBus not supported by GoPro).
+	GOPRO_MODEL_HERO_3_PLUS_SILVER GOPRO_MODEL = 1
+	// Hero 3+ Black.
+	GOPRO_MODEL_HERO_3_PLUS_BLACK GOPRO_MODEL = 2
+	// Hero 4 Silver.
+	GOPRO_MODEL_HERO_4_SILVER GOPRO_MODEL = 3
+	// Hero 4 Black.
+	GOPRO_MODEL_HERO_4_BLACK GOPRO_MODEL = 4
+)
+
+//
+type GOPRO_PHOTO_RESOLUTION int
+
+const (
+	// 5MP Medium.
+	GOPRO_PHOTO_RESOLUTION_5MP_MEDIUM GOPRO_PHOTO_RESOLUTION = 0
+	// 7MP Medium.
+	GOPRO_PHOTO_RESOLUTION_7MP_MEDIUM GOPRO_PHOTO_RESOLUTION = 1
+	// 7MP Wide.
+	GOPRO_PHOTO_RESOLUTION_7MP_WIDE GOPRO_PHOTO_RESOLUTION = 2
+	// 10MP Wide.
+	GOPRO_PHOTO_RESOLUTION_10MP_WIDE GOPRO_PHOTO_RESOLUTION = 3
+	// 12MP Wide.
+	GOPRO_PHOTO_RESOLUTION_12MP_WIDE GOPRO_PHOTO_RESOLUTION = 4
+)
+
+//
+type GOPRO_PROTUNE_COLOUR int
+
+const (
+	// Auto.
+	GOPRO_PROTUNE_COLOUR_STANDARD GOPRO_PROTUNE_COLOUR = 0
+	// Neutral.
+	GOPRO_PROTUNE_COLOUR_NEUTRAL GOPRO_PROTUNE_COLOUR = 1
+)
+
+//
+type GOPRO_PROTUNE_EXPOSURE int
+
+const (
+	// -5.0 EV (Hero 3+ Only).
+	GOPRO_PROTUNE_EXPOSURE_NEG_5_0 GOPRO_PROTUNE_EXPOSURE = 0
+	// -4.5 EV (Hero 3+ Only).
+	GOPRO_PROTUNE_EXPOSURE_NEG_4_5 GOPRO_PROTUNE_EXPOSURE = 1
+	// -4.0 EV (Hero 3+ Only).
+	GOPRO_PROTUNE_EXPOSURE_NEG_4_0 GOPRO_PROTUNE_EXPOSURE = 2
+	// -3.5 EV (Hero 3+ Only).
+	GOPRO_PROTUNE_EXPOSURE_NEG_3_5 GOPRO_PROTUNE_EXPOSURE = 3
+	// -3.0 EV (Hero 3+ Only).
+	GOPRO_PROTUNE_EXPOSURE_NEG_3_0 GOPRO_PROTUNE_EXPOSURE = 4
+	// -2.5 EV (Hero 3+ Only).
+	GOPRO_PROTUNE_EXPOSURE_NEG_2_5 GOPRO_PROTUNE_EXPOSURE = 5
+	// -2.0 EV.
+	GOPRO_PROTUNE_EXPOSURE_NEG_2_0 GOPRO_PROTUNE_EXPOSURE = 6
+	// -1.5 EV.
+	GOPRO_PROTUNE_EXPOSURE_NEG_1_5 GOPRO_PROTUNE_EXPOSURE = 7
+	// -1.0 EV.
+	GOPRO_PROTUNE_EXPOSURE_NEG_1_0 GOPRO_PROTUNE_EXPOSURE = 8
+	// -0.5 EV.
+	GOPRO_PROTUNE_EXPOSURE_NEG_0_5 GOPRO_PROTUNE_EXPOSURE = 9
+	// 0.0 EV.
+	GOPRO_PROTUNE_EXPOSURE_ZERO GOPRO_PROTUNE_EXPOSURE = 10
+	// +0.5 EV.
+	GOPRO_PROTUNE_EXPOSURE_POS_0_5 GOPRO_PROTUNE_EXPOSURE = 11
+	// +1.0 EV.
+	GOPRO_PROTUNE_EXPOSURE_POS_1_0 GOPRO_PROTUNE_EXPOSURE = 12
+	// +1.5 EV.
+	GOPRO_PROTUNE_EXPOSURE_POS_1_5 GOPRO_PROTUNE_EXPOSURE = 13
+	// +2.0 EV.
+	GOPRO_PROTUNE_EXPOSURE_POS_2_0 GOPRO_PROTUNE_EXPOSURE = 14
+	// +2.5 EV (Hero 3+ Only).
+	GOPRO_PROTUNE_EXPOSURE_POS_2_5 GOPRO_PROTUNE_EXPOSURE = 15
+	// +3.0 EV (Hero 3+ Only).
+	GOPRO_PROTUNE_EXPOSURE_POS_3_0 GOPRO_PROTUNE_EXPOSURE = 16
+	// +3.5 EV (Hero 3+ Only).
+	GOPRO_PROTUNE_EXPOSURE_POS_3_5 GOPRO_PROTUNE_EXPOSURE = 17
+	// +4.0 EV (Hero 3+ Only).
+	GOPRO_PROTUNE_EXPOSURE_POS_4_0 GOPRO_PROTUNE_EXPOSURE = 18
+	// +4.5 EV (Hero 3+ Only).
+	GOPRO_PROTUNE_EXPOSURE_POS_4_5 GOPRO_PROTUNE_EXPOSURE = 19
+	// +5.0 EV (Hero 3+ Only).
+	GOPRO_PROTUNE_EXPOSURE_POS_5_0 GOPRO_PROTUNE_EXPOSURE = 20
+)
+
+//
+type GOPRO_PROTUNE_GAIN int
+
+const (
+	// ISO 400.
+	GOPRO_PROTUNE_GAIN_400 GOPRO_PROTUNE_GAIN = 0
+	// ISO 800 (Only Hero 4).
+	GOPRO_PROTUNE_GAIN_800 GOPRO_PROTUNE_GAIN = 1
+	// ISO 1600.
+	GOPRO_PROTUNE_GAIN_1600 GOPRO_PROTUNE_GAIN = 2
+	// ISO 3200 (Only Hero 4).
+	GOPRO_PROTUNE_GAIN_3200 GOPRO_PROTUNE_GAIN = 3
+	// ISO 6400.
+	GOPRO_PROTUNE_GAIN_6400 GOPRO_PROTUNE_GAIN = 4
+)
+
+//
+type GOPRO_PROTUNE_SHARPNESS int
+
+const (
+	// Low Sharpness.
+	GOPRO_PROTUNE_SHARPNESS_LOW GOPRO_PROTUNE_SHARPNESS = 0
+	// Medium Sharpness.
+	GOPRO_PROTUNE_SHARPNESS_MEDIUM GOPRO_PROTUNE_SHARPNESS = 1
+	// High Sharpness.
+	GOPRO_PROTUNE_SHARPNESS_HIGH GOPRO_PROTUNE_SHARPNESS = 2
+)
+
+//
+type GOPRO_PROTUNE_WHITE_BALANCE int
+
+const (
+	// Auto.
+	GOPRO_PROTUNE_WHITE_BALANCE_AUTO GOPRO_PROTUNE_WHITE_BALANCE = 0
+	// 3000K.
+	GOPRO_PROTUNE_WHITE_BALANCE_3000K GOPRO_PROTUNE_WHITE_BALANCE = 1
+	// 5500K.
+	GOPRO_PROTUNE_WHITE_BALANCE_5500K GOPRO_PROTUNE_WHITE_BALANCE = 2
+	// 6500K.
+	GOPRO_PROTUNE_WHITE_BALANCE_6500K GOPRO_PROTUNE_WHITE_BALANCE = 3
+	// Camera Raw.
+	GOPRO_PROTUNE_WHITE_BALANCE_RAW GOPRO_PROTUNE_WHITE_BALANCE = 4
+)
+
+//
+type GOPRO_REQUEST_STATUS int
+
+const (
+	// The write message with ID indicated succeeded.
+	GOPRO_REQUEST_SUCCESS GOPRO_REQUEST_STATUS = 0
+	// The write message with ID indicated failed.
+	GOPRO_REQUEST_FAILED GOPRO_REQUEST_STATUS = 1
+)
+
+//
+type GOPRO_RESOLUTION int
+
+const (
+	// 848 x 480 (480p).
+	GOPRO_RESOLUTION_480p GOPRO_RESOLUTION = 0
+	// 1280 x 720 (720p).
+	GOPRO_RESOLUTION_720p GOPRO_RESOLUTION = 1
+	// 1280 x 960 (960p).
+	GOPRO_RESOLUTION_960p GOPRO_RESOLUTION = 2
+	// 1920 x 1080 (1080p).
+	GOPRO_RESOLUTION_1080p GOPRO_RESOLUTION = 3
+	// 1920 x 1440 (1440p).
+	GOPRO_RESOLUTION_1440p GOPRO_RESOLUTION = 4
+	// 2704 x 1440 (2.7k-17:9).
+	GOPRO_RESOLUTION_2_7k_17_9 GOPRO_RESOLUTION = 5
+	// 2704 x 1524 (2.7k-16:9).
+	GOPRO_RESOLUTION_2_7k_16_9 GOPRO_RESOLUTION = 6
+	// 2704 x 2028 (2.7k-4:3).
+	GOPRO_RESOLUTION_2_7k_4_3 GOPRO_RESOLUTION = 7
+	// 3840 x 2160 (4k-16:9).
+	GOPRO_RESOLUTION_4k_16_9 GOPRO_RESOLUTION = 8
+	// 4096 x 2160 (4k-17:9).
+	GOPRO_RESOLUTION_4k_17_9 GOPRO_RESOLUTION = 9
+	// 1280 x 720 (720p-SuperView).
+	GOPRO_RESOLUTION_720p_SUPERVIEW GOPRO_RESOLUTION = 10
+	// 1920 x 1080 (1080p-SuperView).
+	GOPRO_RESOLUTION_1080p_SUPERVIEW GOPRO_RESOLUTION = 11
+	// 2704 x 1520 (2.7k-SuperView).
+	GOPRO_RESOLUTION_2_7k_SUPERVIEW GOPRO_RESOLUTION = 12
+	// 3840 x 2160 (4k-SuperView).
+	GOPRO_RESOLUTION_4k_SUPERVIEW GOPRO_RESOLUTION = 13
+)
+
+//
+type GOPRO_VIDEO_SETTINGS_FLAGS int
+
+const (
+	// 0=NTSC, 1=PAL.
+	GOPRO_VIDEO_SETTINGS_TV_MODE GOPRO_VIDEO_SETTINGS_FLAGS = 1
+)
+
 // Type of GPS fix
 type GPS_FIX_TYPE int
 
@@ -790,6 +1395,16 @@ const (
 	GPS_INPUT_IGNORE_FLAG_VERTICAL_ACCURACY GPS_INPUT_IGNORE_FLAGS = 128
 )
 
+// Gripper actions.
+type GRIPPER_ACTIONS int
+
+const (
+	// Gripper release cargo.
+	GRIPPER_ACTION_RELEASE GRIPPER_ACTIONS = 0
+	// Gripper grab onto cargo.
+	GRIPPER_ACTION_GRAB GRIPPER_ACTIONS = 1
+)
+
 // Flags to report failure cases over the high latency telemtry.
 type HL_FAILURE_FLAG int
 
@@ -824,6 +1439,36 @@ const (
 	HL_FAILURE_FLAG_MISSION HL_FAILURE_FLAG = 8192
 )
 
+//
+type ICAROUS_FMS_STATE int
+
+const (
+	//
+	ICAROUS_FMS_STATE_IDLE ICAROUS_FMS_STATE = 0
+	//
+	ICAROUS_FMS_STATE_TAKEOFF ICAROUS_FMS_STATE = 1
+	//
+	ICAROUS_FMS_STATE_CLIMB ICAROUS_FMS_STATE = 2
+	//
+	ICAROUS_FMS_STATE_CRUISE ICAROUS_FMS_STATE = 3
+	//
+	ICAROUS_FMS_STATE_APPROACH ICAROUS_FMS_STATE = 4
+	//
+	ICAROUS_FMS_STATE_LAND ICAROUS_FMS_STATE = 5
+)
+
+//
+type ICAROUS_TRACK_BAND_TYPES int
+
+const (
+	//
+	ICAROUS_TRACK_BAND_TYPE_NONE ICAROUS_TRACK_BAND_TYPES = 0
+	//
+	ICAROUS_TRACK_BAND_TYPE_NEAR ICAROUS_TRACK_BAND_TYPES = 1
+	//
+	ICAROUS_TRACK_BAND_TYPE_RECOVERY ICAROUS_TRACK_BAND_TYPES = 2
+)
+
 // Type of landing target
 type LANDING_TARGET_TYPE int
 
@@ -836,6 +1481,68 @@ const (
 	LANDING_TARGET_TYPE_VISION_FIDUCIAL LANDING_TARGET_TYPE = 2
 	// Landing target represented by a pre-defined visual shape/feature (ex: X-marker, H-marker, square)
 	LANDING_TARGET_TYPE_VISION_OTHER LANDING_TARGET_TYPE = 3
+)
+
+//
+type LED_CONTROL_PATTERN int
+
+const (
+	// LED patterns off (return control to regular vehicle control).
+	LED_CONTROL_PATTERN_OFF LED_CONTROL_PATTERN = 0
+	// LEDs show pattern during firmware update.
+	LED_CONTROL_PATTERN_FIRMWAREUPDATE LED_CONTROL_PATTERN = 1
+	// Custom Pattern using custom bytes fields.
+	LED_CONTROL_PATTERN_CUSTOM LED_CONTROL_PATTERN = 255
+)
+
+//
+type LIMITS_STATE int
+
+const (
+	// Pre-initialization.
+	LIMITS_INIT LIMITS_STATE = 0
+	// Disabled.
+	LIMITS_DISABLED LIMITS_STATE = 1
+	// Checking limits.
+	LIMITS_ENABLED LIMITS_STATE = 2
+	// A limit has been breached.
+	LIMITS_TRIGGERED LIMITS_STATE = 3
+	// Taking action e.g. Return/RTL.
+	LIMITS_RECOVERING LIMITS_STATE = 4
+	// We're no longer in breach of a limit.
+	LIMITS_RECOVERED LIMITS_STATE = 5
+)
+
+//
+type LIMIT_MODULE int
+
+const (
+	// Pre-initialization.
+	LIMIT_GPSLOCK LIMIT_MODULE = 1
+	// Disabled.
+	LIMIT_GEOFENCE LIMIT_MODULE = 2
+	// Checking limits.
+	LIMIT_ALTITUDE LIMIT_MODULE = 4
+)
+
+//
+type MAG_CAL_STATUS int
+
+const (
+	//
+	MAG_CAL_NOT_STARTED MAG_CAL_STATUS = 0
+	//
+	MAG_CAL_WAITING_TO_START MAG_CAL_STATUS = 1
+	//
+	MAG_CAL_RUNNING_STEP_ONE MAG_CAL_STATUS = 2
+	//
+	MAG_CAL_RUNNING_STEP_TWO MAG_CAL_STATUS = 3
+	//
+	MAG_CAL_SUCCESS MAG_CAL_STATUS = 4
+	//
+	MAG_CAL_FAILED MAG_CAL_STATUS = 5
+	//
+	MAG_CAL_BAD_ORIENTATION MAG_CAL_STATUS = 6
 )
 
 //
@@ -1258,6 +1965,50 @@ const (
 	MAV_CMD_USER_4 MAV_CMD = 31013
 	// User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item.
 	MAV_CMD_USER_5 MAV_CMD = 31014
+	// Mission command to operate EPM gripper.
+	MAV_CMD_DO_GRIPPER MAV_CMD = 211
+	// Enable/disable autotune.
+	MAV_CMD_DO_AUTOTUNE_ENABLE MAV_CMD = 212
+	// Mission command to wait for an altitude or downwards vertical speed. This is meant for high altitude balloon launches, allowing the aircraft to be idle until either an altitude is reached or a negative vertical speed is reached (indicating early balloon burst). The wiggle time is how often to wiggle the control surfaces to prevent them seizing up.
+	MAV_CMD_NAV_ALTITUDE_WAIT MAV_CMD = 83
+	// A system wide power-off event has been initiated.
+	MAV_CMD_POWER_OFF_INITIATED MAV_CMD = 42000
+	// FLY button has been clicked.
+	MAV_CMD_SOLO_BTN_FLY_CLICK MAV_CMD = 42001
+	// FLY button has been held for 1.5 seconds.
+	MAV_CMD_SOLO_BTN_FLY_HOLD MAV_CMD = 42002
+	// PAUSE button has been clicked.
+	MAV_CMD_SOLO_BTN_PAUSE_CLICK MAV_CMD = 42003
+	// Magnetometer calibration based on fixed position        in earth field given by inclination, declination and intensity.
+	MAV_CMD_FIXED_MAG_CAL MAV_CMD = 42004
+	// Magnetometer calibration based on fixed expected field values in milliGauss.
+	MAV_CMD_FIXED_MAG_CAL_FIELD MAV_CMD = 42005
+	// Initiate a magnetometer calibration.
+	MAV_CMD_DO_START_MAG_CAL MAV_CMD = 42424
+	// Initiate a magnetometer calibration.
+	MAV_CMD_DO_ACCEPT_MAG_CAL MAV_CMD = 42425
+	// Cancel a running magnetometer calibration.
+	MAV_CMD_DO_CANCEL_MAG_CAL MAV_CMD = 42426
+	// Used when doing accelerometer calibration. When sent to the GCS tells it what position to put the vehicle in. When sent to the vehicle says what position the vehicle is in.
+	MAV_CMD_ACCELCAL_VEHICLE_POS MAV_CMD = 42429
+	// Reply with the version banner.
+	MAV_CMD_DO_SEND_BANNER MAV_CMD = 42428
+	// Command autopilot to get into factory test/diagnostic mode.
+	MAV_CMD_SET_FACTORY_TEST_MODE MAV_CMD = 42427
+	// Causes the gimbal to reset and boot as if it was just powered on.
+	MAV_CMD_GIMBAL_RESET MAV_CMD = 42501
+	// Reports progress and success or failure of gimbal axis calibration procedure.
+	MAV_CMD_GIMBAL_AXIS_CALIBRATION_STATUS MAV_CMD = 42502
+	// Starts commutation calibration on the gimbal.
+	MAV_CMD_GIMBAL_REQUEST_AXIS_CALIBRATION MAV_CMD = 42503
+	// Erases gimbal application and parameters.
+	MAV_CMD_GIMBAL_FULL_RESET MAV_CMD = 42505
+	// Command to operate winch.
+	MAV_CMD_DO_WINCH MAV_CMD = 42600
+	// Update the bootloader
+	MAV_CMD_FLASH_BOOTLOADER MAV_CMD = 42650
+	// Reset battery capacity for batteries that accumulate consumed battery via integration.
+	MAV_CMD_BATTERY_RESET MAV_CMD = 42651
 )
 
 // ACK / NACK / ERROR values as a result of MAV_CMDs and for mission item transmission.
@@ -1852,6 +2603,26 @@ const (
 	MAV_MODE_FLAG_DECODE_POSITION_CUSTOM_MODE MAV_MODE_FLAG_DECODE_POSITION = 1
 )
 
+//
+type MAV_MODE_GIMBAL int
+
+const (
+	// Gimbal is powered on but has not started initializing yet.
+	MAV_MODE_GIMBAL_UNINITIALIZED MAV_MODE_GIMBAL = 0
+	// Gimbal is currently running calibration on the pitch axis.
+	MAV_MODE_GIMBAL_CALIBRATING_PITCH MAV_MODE_GIMBAL = 1
+	// Gimbal is currently running calibration on the roll axis.
+	MAV_MODE_GIMBAL_CALIBRATING_ROLL MAV_MODE_GIMBAL = 2
+	// Gimbal is currently running calibration on the yaw axis.
+	MAV_MODE_GIMBAL_CALIBRATING_YAW MAV_MODE_GIMBAL = 3
+	// Gimbal has finished calibrating and initializing, but is relaxed pending reception of first rate command from copter.
+	MAV_MODE_GIMBAL_INITIALIZED MAV_MODE_GIMBAL = 4
+	// Gimbal is actively stabilizing.
+	MAV_MODE_GIMBAL_ACTIVE MAV_MODE_GIMBAL = 5
+	// Gimbal is relaxed because it missed more than 10 expected rate command messages in a row. Gimbal will move back to active mode when it receives a new rate command.
+	MAV_MODE_GIMBAL_RATE_CMD_TIMEOUT MAV_MODE_GIMBAL = 6
+)
+
 // Enumeration of possible mount operation modes
 type MAV_MOUNT_MODE int
 
@@ -2202,6 +2973,26 @@ const (
 	MAV_PROTOCOL_CAPABILITY_MISSION_RALLY MAV_PROTOCOL_CAPABILITY = 32768
 	// Autopilot supports the flight information protocol.
 	MAV_PROTOCOL_CAPABILITY_FLIGHT_INFORMATION MAV_PROTOCOL_CAPABILITY = 65536
+)
+
+// Special ACK block numbers control activation of dataflash log streaming.
+type MAV_REMOTE_LOG_DATA_BLOCK_COMMANDS int
+
+const (
+	// UAV to stop sending DataFlash blocks.
+	MAV_REMOTE_LOG_DATA_BLOCK_STOP MAV_REMOTE_LOG_DATA_BLOCK_COMMANDS = 2147483645
+	// UAV to start sending DataFlash blocks.
+	MAV_REMOTE_LOG_DATA_BLOCK_START MAV_REMOTE_LOG_DATA_BLOCK_COMMANDS = 2147483646
+)
+
+// Possible remote log data block statuses.
+type MAV_REMOTE_LOG_DATA_BLOCK_STATUSES int
+
+const (
+	// This block has NOT been received.
+	MAV_REMOTE_LOG_DATA_BLOCK_NACK MAV_REMOTE_LOG_DATA_BLOCK_STATUSES = 0
+	// This block has been received.
+	MAV_REMOTE_LOG_DATA_BLOCK_ACK MAV_REMOTE_LOG_DATA_BLOCK_STATUSES = 1
 )
 
 // Result from a MAVLink command (MAV_CMD)
@@ -2640,6 +3431,74 @@ const (
 	PARAM_ACK_IN_PROGRESS PARAM_ACK = 3
 )
 
+//
+type PID_TUNING_AXIS int
+
+const (
+	//
+	PID_TUNING_ROLL PID_TUNING_AXIS = 1
+	//
+	PID_TUNING_PITCH PID_TUNING_AXIS = 2
+	//
+	PID_TUNING_YAW PID_TUNING_AXIS = 3
+	//
+	PID_TUNING_ACCZ PID_TUNING_AXIS = 4
+	//
+	PID_TUNING_STEER PID_TUNING_AXIS = 5
+	//
+	PID_TUNING_LANDING PID_TUNING_AXIS = 6
+)
+
+// A mapping of plane flight modes for custom_mode field of heartbeat.
+type PLANE_MODE int
+
+const (
+	//
+	PLANE_MODE_MANUAL PLANE_MODE = 0
+	//
+	PLANE_MODE_CIRCLE PLANE_MODE = 1
+	//
+	PLANE_MODE_STABILIZE PLANE_MODE = 2
+	//
+	PLANE_MODE_TRAINING PLANE_MODE = 3
+	//
+	PLANE_MODE_ACRO PLANE_MODE = 4
+	//
+	PLANE_MODE_FLY_BY_WIRE_A PLANE_MODE = 5
+	//
+	PLANE_MODE_FLY_BY_WIRE_B PLANE_MODE = 6
+	//
+	PLANE_MODE_CRUISE PLANE_MODE = 7
+	//
+	PLANE_MODE_AUTOTUNE PLANE_MODE = 8
+	//
+	PLANE_MODE_AUTO PLANE_MODE = 10
+	//
+	PLANE_MODE_RTL PLANE_MODE = 11
+	//
+	PLANE_MODE_LOITER PLANE_MODE = 12
+	//
+	PLANE_MODE_TAKEOFF PLANE_MODE = 13
+	//
+	PLANE_MODE_AVOID_ADSB PLANE_MODE = 14
+	//
+	PLANE_MODE_GUIDED PLANE_MODE = 15
+	//
+	PLANE_MODE_INITIALIZING PLANE_MODE = 16
+	//
+	PLANE_MODE_QSTABILIZE PLANE_MODE = 17
+	//
+	PLANE_MODE_QHOVER PLANE_MODE = 18
+	//
+	PLANE_MODE_QLOITER PLANE_MODE = 19
+	//
+	PLANE_MODE_QLAND PLANE_MODE = 20
+	//
+	PLANE_MODE_QRTL PLANE_MODE = 21
+	//
+	PLANE_MODE_QAUTOTUNE PLANE_MODE = 22
+)
+
 // Bitmap to indicate which dimensions should be ignored by the vehicle: a value of 0b0000000000000000 or 0b0000001000000000 indicates that none of the setpoint dimensions should be ignored. If bit 9 is set the floats afx afy afz should be interpreted as force instead of acceleration.
 type POSITION_TARGET_TYPEMASK int
 
@@ -2682,6 +3541,16 @@ const (
 	PRECISION_LAND_MODE_REQUIRED PRECISION_LAND_MODE = 2
 )
 
+// Flags in RALLY_POINT message.
+type RALLY_FLAGS int
+
+const (
+	// Flag set when requiring favorable winds for landing.
+	FAVORABLE_WIND RALLY_FLAGS = 1
+	// Flag set when plane is to immediately descend to break altitude and land without GCS intervention. Flag not set when plane is to loiter at Rally point until commanded to land.
+	LAND_IMMEDIATELY RALLY_FLAGS = 2
+)
+
 // RC type
 type RC_TYPE int
 
@@ -2690,6 +3559,32 @@ const (
 	RC_TYPE_SPEKTRUM_DSM2 RC_TYPE = 0
 	// Spektrum DSMX
 	RC_TYPE_SPEKTRUM_DSMX RC_TYPE = 1
+)
+
+// A mapping of rover flight modes for custom_mode field of heartbeat.
+type ROVER_MODE int
+
+const (
+	//
+	ROVER_MODE_MANUAL ROVER_MODE = 0
+	//
+	ROVER_MODE_ACRO ROVER_MODE = 1
+	//
+	ROVER_MODE_STEERING ROVER_MODE = 3
+	//
+	ROVER_MODE_HOLD ROVER_MODE = 4
+	//
+	ROVER_MODE_LOITER ROVER_MODE = 5
+	//
+	ROVER_MODE_AUTO ROVER_MODE = 10
+	//
+	ROVER_MODE_RTL ROVER_MODE = 11
+	//
+	ROVER_MODE_SMART_RTL ROVER_MODE = 12
+	//
+	ROVER_MODE_GUIDED ROVER_MODE = 15
+	//
+	ROVER_MODE_INITIALIZING ROVER_MODE = 16
 )
 
 // RTK GPS baseline coordinate system, used for RTK corrections
@@ -2762,6 +3657,48 @@ const (
 	STORAGE_STATUS_NOT_SUPPORTED STORAGE_STATUS = 3
 )
 
+// A mapping of sub flight modes for custom_mode field of heartbeat.
+type SUB_MODE int
+
+const (
+	//
+	SUB_MODE_STABILIZE SUB_MODE = 0
+	//
+	SUB_MODE_ACRO SUB_MODE = 1
+	//
+	SUB_MODE_ALT_HOLD SUB_MODE = 2
+	//
+	SUB_MODE_AUTO SUB_MODE = 3
+	//
+	SUB_MODE_GUIDED SUB_MODE = 4
+	//
+	SUB_MODE_CIRCLE SUB_MODE = 7
+	//
+	SUB_MODE_SURFACE SUB_MODE = 9
+	//
+	SUB_MODE_POSHOLD SUB_MODE = 16
+	//
+	SUB_MODE_MANUAL SUB_MODE = 19
+)
+
+// A mapping of antenna tracker flight modes for custom_mode field of heartbeat.
+type TRACKER_MODE int
+
+const (
+	//
+	TRACKER_MODE_MANUAL TRACKER_MODE = 0
+	//
+	TRACKER_MODE_STOP TRACKER_MODE = 1
+	//
+	TRACKER_MODE_SCAN TRACKER_MODE = 2
+	//
+	TRACKER_MODE_SERVO_TEST TRACKER_MODE = 3
+	//
+	TRACKER_MODE_AUTO TRACKER_MODE = 10
+	//
+	TRACKER_MODE_INITIALIZING TRACKER_MODE = 16
+)
+
 // Tune formats (used for vehicle buzzer/tone generation).
 type TUNE_FORMAT int
 
@@ -2800,6 +3737,158 @@ const (
 	UAVCAN_NODE_MODE_SOFTWARE_UPDATE UAVCAN_NODE_MODE = 3
 	// The node is no longer available online.
 	UAVCAN_NODE_MODE_OFFLINE UAVCAN_NODE_MODE = 7
+)
+
+// Emergency status encoding
+type UAVIONIX_ADSB_EMERGENCY_STATUS int
+
+const (
+	//
+	UAVIONIX_ADSB_OUT_NO_EMERGENCY UAVIONIX_ADSB_EMERGENCY_STATUS = 0
+	//
+	UAVIONIX_ADSB_OUT_GENERAL_EMERGENCY UAVIONIX_ADSB_EMERGENCY_STATUS = 1
+	//
+	UAVIONIX_ADSB_OUT_LIFEGUARD_EMERGENCY UAVIONIX_ADSB_EMERGENCY_STATUS = 2
+	//
+	UAVIONIX_ADSB_OUT_MINIMUM_FUEL_EMERGENCY UAVIONIX_ADSB_EMERGENCY_STATUS = 3
+	//
+	UAVIONIX_ADSB_OUT_NO_COMM_EMERGENCY UAVIONIX_ADSB_EMERGENCY_STATUS = 4
+	//
+	UAVIONIX_ADSB_OUT_UNLAWFUL_INTERFERANCE_EMERGENCY UAVIONIX_ADSB_EMERGENCY_STATUS = 5
+	//
+	UAVIONIX_ADSB_OUT_DOWNED_AIRCRAFT_EMERGENCY UAVIONIX_ADSB_EMERGENCY_STATUS = 6
+	//
+	UAVIONIX_ADSB_OUT_RESERVED UAVIONIX_ADSB_EMERGENCY_STATUS = 7
+)
+
+// Definitions for aircraft size
+type UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE int
+
+const (
+	//
+	UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE_NO_DATA UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE = 0
+	//
+	UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE_L15M_W23M UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE = 1
+	//
+	UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE_L25M_W28P5M UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE = 2
+	//
+	UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE_L25_34M UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE = 3
+	//
+	UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE_L35_33M UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE = 4
+	//
+	UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE_L35_38M UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE = 5
+	//
+	UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE_L45_39P5M UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE = 6
+	//
+	UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE_L45_45M UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE = 7
+	//
+	UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE_L55_45M UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE = 8
+	//
+	UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE_L55_52M UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE = 9
+	//
+	UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE_L65_59P5M UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE = 10
+	//
+	UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE_L65_67M UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE = 11
+	//
+	UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE_L75_W72P5M UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE = 12
+	//
+	UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE_L75_W80M UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE = 13
+	//
+	UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE_L85_W80M UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE = 14
+	//
+	UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE_L85_W90M UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE = 15
+)
+
+// GPS lataral offset encoding
+type UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT int
+
+const (
+	//
+	UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT_NO_DATA UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT = 0
+	//
+	UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT_LEFT_2M UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT = 1
+	//
+	UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT_LEFT_4M UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT = 2
+	//
+	UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT_LEFT_6M UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT = 3
+	//
+	UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT_RIGHT_0M UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT = 4
+	//
+	UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT_RIGHT_2M UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT = 5
+	//
+	UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT_RIGHT_4M UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT = 6
+	//
+	UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT_RIGHT_6M UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT = 7
+)
+
+// GPS longitudinal offset encoding
+type UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LON int
+
+const (
+	//
+	UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LON_NO_DATA UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LON = 0
+	//
+	UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LON_APPLIED_BY_SENSOR UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LON = 1
+)
+
+// Status for ADS-B transponder dynamic input
+type UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX int
+
+const (
+	//
+	UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX_NONE_0 UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX = 0
+	//
+	UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX_NONE_1 UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX = 1
+	//
+	UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX_2D UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX = 2
+	//
+	UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX_3D UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX = 3
+	//
+	UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX_DGPS UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX = 4
+	//
+	UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX_RTK UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX = 5
+)
+
+// State flags for ADS-B transponder dynamic report
+type UAVIONIX_ADSB_OUT_DYNAMIC_STATE int
+
+const (
+	//
+	UAVIONIX_ADSB_OUT_DYNAMIC_STATE_INTENT_CHANGE UAVIONIX_ADSB_OUT_DYNAMIC_STATE = 1
+	//
+	UAVIONIX_ADSB_OUT_DYNAMIC_STATE_AUTOPILOT_ENABLED UAVIONIX_ADSB_OUT_DYNAMIC_STATE = 2
+	//
+	UAVIONIX_ADSB_OUT_DYNAMIC_STATE_NICBARO_CROSSCHECKED UAVIONIX_ADSB_OUT_DYNAMIC_STATE = 4
+	//
+	UAVIONIX_ADSB_OUT_DYNAMIC_STATE_ON_GROUND UAVIONIX_ADSB_OUT_DYNAMIC_STATE = 8
+	//
+	UAVIONIX_ADSB_OUT_DYNAMIC_STATE_IDENT UAVIONIX_ADSB_OUT_DYNAMIC_STATE = 16
+)
+
+// Transceiver RF control flags for ADS-B transponder dynamic reports
+type UAVIONIX_ADSB_OUT_RF_SELECT int
+
+const (
+	//
+	UAVIONIX_ADSB_OUT_RF_SELECT_STANDBY UAVIONIX_ADSB_OUT_RF_SELECT = 0
+	//
+	UAVIONIX_ADSB_OUT_RF_SELECT_RX_ENABLED UAVIONIX_ADSB_OUT_RF_SELECT = 1
+	//
+	UAVIONIX_ADSB_OUT_RF_SELECT_TX_ENABLED UAVIONIX_ADSB_OUT_RF_SELECT = 2
+)
+
+// Status flags for ADS-B transponder dynamic output
+type UAVIONIX_ADSB_RF_HEALTH int
+
+const (
+	//
+	UAVIONIX_ADSB_RF_HEALTH_INITIALIZING UAVIONIX_ADSB_RF_HEALTH = 0
+	//
+	UAVIONIX_ADSB_RF_HEALTH_OK UAVIONIX_ADSB_RF_HEALTH = 1
+	//
+	UAVIONIX_ADSB_RF_HEALTH_FAIL_TX UAVIONIX_ADSB_RF_HEALTH = 2
+	//
+	UAVIONIX_ADSB_RF_HEALTH_FAIL_RX UAVIONIX_ADSB_RF_HEALTH = 16
 )
 
 // Flags for the global position report.
@@ -2878,6 +3967,18 @@ const (
 	VTOL_TRANSITION_HEADING_SPECIFIED VTOL_TRANSITION_HEADING = 3
 	// Use the current heading when reaching takeoff altitude (potentially facing the wind when weather-vaning is active).
 	VTOL_TRANSITION_HEADING_ANY VTOL_TRANSITION_HEADING = 4
+)
+
+// Winch actions.
+type WINCH_ACTIONS int
+
+const (
+	// Relax winch.
+	WINCH_RELAXED WINCH_ACTIONS = 0
+	// Winch unwinds or winds specified length of cable optionally using specified rate.
+	WINCH_RELATIVE_LENGTH_CONTROL WINCH_ACTIONS = 1
+	// Winch unwinds or winds cable at specified rate in meters/seconds.
+	WINCH_RATE_CONTROL WINCH_ACTIONS = 2
 )
 
 // common.xml
@@ -7384,70 +8485,1340 @@ func (*MessageOpenDroneIdMessagePack) GetId() uint32 {
 	return 12915
 }
 
-// paparazzi.xml
+// uAvionix.xml
 
-// Message encoding a mission script item. This message is emitted upon a request for the next script item.
-type MessageScriptItem struct {
-	// System ID
-	TargetSystem uint8
-	// Component ID
-	TargetComponent uint8
-	// Sequence
-	Seq uint16
-	// The name of the mission script, NULL terminated.
-	Name string `mavlen:"50"`
+// Static data to configure the ADS-B transponder (send within 10 sec of a POR and every 10 sec thereafter)
+type MessageUavionixAdsbOutCfg struct {
+	// Vehicle address (24 bit)
+	Icao uint32 `mavname:"ICAO"`
+	// Vehicle identifier (8 characters, null terminated, valid characters are A-Z, 0-9, " " only)
+	Callsign string `mavlen:"9"`
+	// Transmitting vehicle type. See ADSB_EMITTER_TYPE enum
+	Emittertype ADSB_EMITTER_TYPE `mavenum:"uint8" mavname:"emitterType"`
+	// Aircraft length and width encoding (table 2-35 of DO-282B)
+	Aircraftsize UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE `mavenum:"uint8" mavname:"aircraftSize"`
+	// GPS antenna lateral offset (table 2-36 of DO-282B)
+	Gpsoffsetlat UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT `mavenum:"uint8" mavname:"gpsOffsetLat"`
+	// GPS antenna longitudinal offset from nose [if non-zero, take position (in meters) divide by 2 and add one] (table 2-37 DO-282B)
+	Gpsoffsetlon UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LON `mavenum:"uint8" mavname:"gpsOffsetLon"`
+	// Aircraft stall speed in cm/s
+	Stallspeed uint16 `mavname:"stallSpeed"`
+	// ADS-B transponder reciever and transmit enable flags
+	Rfselect UAVIONIX_ADSB_OUT_RF_SELECT `mavenum:"uint8" mavname:"rfSelect"`
 }
 
-func (*MessageScriptItem) GetId() uint32 {
+func (*MessageUavionixAdsbOutCfg) GetId() uint32 {
+	return 10001
+}
+
+// Dynamic data used to generate ADS-B out transponder data (send at 5Hz)
+type MessageUavionixAdsbOutDynamic struct {
+	// UTC time in seconds since GPS epoch (Jan 6, 1980). If unknown set to UINT32_MAX
+	Utctime uint32 `mavname:"utcTime"`
+	// Latitude WGS84 (deg * 1E7). If unknown set to INT32_MAX
+	Gpslat int32 `mavname:"gpsLat"`
+	// Longitude WGS84 (deg * 1E7). If unknown set to INT32_MAX
+	Gpslon int32 `mavname:"gpsLon"`
+	// Altitude (WGS84). UP +ve. If unknown set to INT32_MAX
+	Gpsalt int32 `mavname:"gpsAlt"`
+	// 0-1: no fix, 2: 2D fix, 3: 3D fix, 4: DGPS, 5: RTK
+	Gpsfix UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX `mavenum:"uint8" mavname:"gpsFix"`
+	// Number of satellites visible. If unknown set to UINT8_MAX
+	Numsats uint8 `mavname:"numSats"`
+	// Barometric pressure altitude (MSL) relative to a standard atmosphere of 1013.2 mBar and NOT bar corrected altitude (m * 1E-3). (up +ve). If unknown set to INT32_MAX
+	Baroaltmsl int32 `mavname:"baroAltMSL"`
+	// Horizontal accuracy in mm (m * 1E-3). If unknown set to UINT32_MAX
+	Accuracyhor uint32 `mavname:"accuracyHor"`
+	// Vertical accuracy in cm. If unknown set to UINT16_MAX
+	Accuracyvert uint16 `mavname:"accuracyVert"`
+	// Velocity accuracy in mm/s (m * 1E-3). If unknown set to UINT16_MAX
+	Accuracyvel uint16 `mavname:"accuracyVel"`
+	// GPS vertical speed in cm/s. If unknown set to INT16_MAX
+	Velvert int16 `mavname:"velVert"`
+	// North-South velocity over ground in cm/s North +ve. If unknown set to INT16_MAX
+	Velns int16 `mavname:"velNS"`
+	// East-West velocity over ground in cm/s East +ve. If unknown set to INT16_MAX
+	Velew int16 `mavname:"VelEW"`
+	// Emergency status
+	Emergencystatus UAVIONIX_ADSB_EMERGENCY_STATUS `mavenum:"uint8" mavname:"emergencyStatus"`
+	// ADS-B transponder dynamic input state flags
+	State UAVIONIX_ADSB_OUT_DYNAMIC_STATE `mavenum:"uint16"`
+	// Mode A code (typically 1200 [0x04B0] for VFR)
+	Squawk uint16
+}
+
+func (*MessageUavionixAdsbOutDynamic) GetId() uint32 {
+	return 10002
+}
+
+// Transceiver heartbeat with health report (updated every 10s)
+type MessageUavionixAdsbTransceiverHealthReport struct {
+	// ADS-B transponder messages
+	Rfhealth UAVIONIX_ADSB_RF_HEALTH `mavenum:"uint8" mavname:"rfHealth"`
+}
+
+func (*MessageUavionixAdsbTransceiverHealthReport) GetId() uint32 {
+	return 10003
+}
+
+// icarous.xml
+
+// ICAROUS heartbeat
+type MessageIcarousHeartbeat struct {
+	// See the FMS_STATE enum.
+	Status ICAROUS_FMS_STATE `mavenum:"uint8"`
+}
+
+func (*MessageIcarousHeartbeat) GetId() uint32 {
+	return 42000
+}
+
+// Kinematic multi bands (track) output from Daidalus
+type MessageIcarousKinematicBands struct {
+	// Number of track bands
+	Numbands int8 `mavname:"numBands"`
+	// See the TRACK_BAND_TYPES enum.
+	Type1 ICAROUS_TRACK_BAND_TYPES `mavenum:"uint8"`
+	// min angle (degrees)
+	Min1 float32
+	// max angle (degrees)
+	Max1 float32
+	// See the TRACK_BAND_TYPES enum.
+	Type2 ICAROUS_TRACK_BAND_TYPES `mavenum:"uint8"`
+	// min angle (degrees)
+	Min2 float32
+	// max angle (degrees)
+	Max2 float32
+	// See the TRACK_BAND_TYPES enum.
+	Type3 ICAROUS_TRACK_BAND_TYPES `mavenum:"uint8"`
+	// min angle (degrees)
+	Min3 float32
+	// max angle (degrees)
+	Max3 float32
+	// See the TRACK_BAND_TYPES enum.
+	Type4 ICAROUS_TRACK_BAND_TYPES `mavenum:"uint8"`
+	// min angle (degrees)
+	Min4 float32
+	// max angle (degrees)
+	Max4 float32
+	// See the TRACK_BAND_TYPES enum.
+	Type5 ICAROUS_TRACK_BAND_TYPES `mavenum:"uint8"`
+	// min angle (degrees)
+	Min5 float32
+	// max angle (degrees)
+	Max5 float32
+}
+
+func (*MessageIcarousKinematicBands) GetId() uint32 {
+	return 42001
+}
+
+// ardupilotmega.xml
+
+// Offsets and calibrations values for hardware sensors. This makes it easier to debug the calibration process.
+type MessageSensorOffsets struct {
+	// Magnetometer X offset.
+	MagOfsX int16
+	// Magnetometer Y offset.
+	MagOfsY int16
+	// Magnetometer Z offset.
+	MagOfsZ int16
+	// Magnetic declination.
+	MagDeclination float32
+	// Raw pressure from barometer.
+	RawPress int32
+	// Raw temperature from barometer.
+	RawTemp int32
+	// Gyro X calibration.
+	GyroCalX float32
+	// Gyro Y calibration.
+	GyroCalY float32
+	// Gyro Z calibration.
+	GyroCalZ float32
+	// Accel X calibration.
+	AccelCalX float32
+	// Accel Y calibration.
+	AccelCalY float32
+	// Accel Z calibration.
+	AccelCalZ float32
+}
+
+func (*MessageSensorOffsets) GetId() uint32 {
+	return 150
+}
+
+// Set the magnetometer offsets
+type MessageSetMagOffsets struct {
+	// System ID.
+	TargetSystem uint8
+	// Component ID.
+	TargetComponent uint8
+	// Magnetometer X offset.
+	MagOfsX int16
+	// Magnetometer Y offset.
+	MagOfsY int16
+	// Magnetometer Z offset.
+	MagOfsZ int16
+}
+
+func (*MessageSetMagOffsets) GetId() uint32 {
+	return 151
+}
+
+// State of APM memory.
+type MessageMeminfo struct {
+	// Heap top.
+	Brkval uint16
+	// Free memory.
+	Freemem uint16
+	// Free memory (32 bit).
+	Freemem32 uint32 `mavext:"true"`
+}
+
+func (*MessageMeminfo) GetId() uint32 {
+	return 152
+}
+
+// Raw ADC output.
+type MessageApAdc struct {
+	// ADC output 1.
+	Adc1 uint16
+	// ADC output 2.
+	Adc2 uint16
+	// ADC output 3.
+	Adc3 uint16
+	// ADC output 4.
+	Adc4 uint16
+	// ADC output 5.
+	Adc5 uint16
+	// ADC output 6.
+	Adc6 uint16
+}
+
+func (*MessageApAdc) GetId() uint32 {
+	return 153
+}
+
+// Configure on-board Camera Control System.
+type MessageDigicamConfigure struct {
+	// System ID.
+	TargetSystem uint8
+	// Component ID.
+	TargetComponent uint8
+	// Mode enumeration from 1 to N //P, TV, AV, M, etc. (0 means ignore).
+	Mode uint8
+	// Divisor number //e.g. 1000 means 1/1000 (0 means ignore).
+	ShutterSpeed uint16
+	// F stop number x 10 //e.g. 28 means 2.8 (0 means ignore).
+	Aperture uint8
+	// ISO enumeration from 1 to N //e.g. 80, 100, 200, Etc (0 means ignore).
+	Iso uint8
+	// Exposure type enumeration from 1 to N (0 means ignore).
+	ExposureType uint8
+	// Command Identity (incremental loop: 0 to 255). //A command sent multiple times will be executed or pooled just once.
+	CommandId uint8
+	// Main engine cut-off time before camera trigger (0 means no cut-off).
+	EngineCutOff uint8
+	// Extra parameters enumeration (0 means ignore).
+	ExtraParam uint8
+	// Correspondent value to given extra_param.
+	ExtraValue float32
+}
+
+func (*MessageDigicamConfigure) GetId() uint32 {
+	return 154
+}
+
+// Control on-board Camera Control System to take shots.
+type MessageDigicamControl struct {
+	// System ID.
+	TargetSystem uint8
+	// Component ID.
+	TargetComponent uint8
+	// 0: stop, 1: start or keep it up //Session control e.g. show/hide lens.
+	Session uint8
+	// 1 to N //Zoom's absolute position (0 means ignore).
+	ZoomPos uint8
+	// -100 to 100 //Zooming step value to offset zoom from the current position.
+	ZoomStep int8
+	// 0: unlock focus or keep unlocked, 1: lock focus or keep locked, 3: re-lock focus.
+	FocusLock uint8
+	// 0: ignore, 1: shot or start filming.
+	Shot uint8
+	// Command Identity (incremental loop: 0 to 255)//A command sent multiple times will be executed or pooled just once.
+	CommandId uint8
+	// Extra parameters enumeration (0 means ignore).
+	ExtraParam uint8
+	// Correspondent value to given extra_param.
+	ExtraValue float32
+}
+
+func (*MessageDigicamControl) GetId() uint32 {
+	return 155
+}
+
+// Message to configure a camera mount, directional antenna, etc.
+type MessageMountConfigure struct {
+	// System ID.
+	TargetSystem uint8
+	// Component ID.
+	TargetComponent uint8
+	// Mount operating mode.
+	MountMode MAV_MOUNT_MODE `mavenum:"uint8"`
+	// (1 = yes, 0 = no).
+	StabRoll uint8
+	// (1 = yes, 0 = no).
+	StabPitch uint8
+	// (1 = yes, 0 = no).
+	StabYaw uint8
+}
+
+func (*MessageMountConfigure) GetId() uint32 {
+	return 156
+}
+
+// Message to control a camera mount, directional antenna, etc.
+type MessageMountControl struct {
+	// System ID.
+	TargetSystem uint8
+	// Component ID.
+	TargetComponent uint8
+	// Pitch (centi-degrees) or lat (degE7), depending on mount mode.
+	InputA int32
+	// Roll (centi-degrees) or lon (degE7) depending on mount mode.
+	InputB int32
+	// Yaw (centi-degrees) or alt (cm) depending on mount mode.
+	InputC int32
+	// If "1" it will save current trimmed position on EEPROM (just valid for NEUTRAL and LANDING).
+	SavePosition uint8
+}
+
+func (*MessageMountControl) GetId() uint32 {
+	return 157
+}
+
+// Message with some status from APM to GCS about camera or antenna mount.
+type MessageMountStatus struct {
+	// System ID.
+	TargetSystem uint8
+	// Component ID.
+	TargetComponent uint8
+	// Pitch.
+	PointingA int32
+	// Roll.
+	PointingB int32
+	// Yaw.
+	PointingC int32
+}
+
+func (*MessageMountStatus) GetId() uint32 {
+	return 158
+}
+
+// A fence point. Used to set a point when from GCS -> MAV. Also used to return a point from MAV -> GCS.
+type MessageFencePoint struct {
+	// System ID.
+	TargetSystem uint8
+	// Component ID.
+	TargetComponent uint8
+	// Point index (first point is 1, 0 is for return point).
+	Idx uint8
+	// Total number of points (for sanity checking).
+	Count uint8
+	// Latitude of point.
+	Lat float32
+	// Longitude of point.
+	Lng float32
+}
+
+func (*MessageFencePoint) GetId() uint32 {
+	return 160
+}
+
+// Request a current fence point from MAV.
+type MessageFenceFetchPoint struct {
+	// System ID.
+	TargetSystem uint8
+	// Component ID.
+	TargetComponent uint8
+	// Point index (first point is 1, 0 is for return point).
+	Idx uint8
+}
+
+func (*MessageFenceFetchPoint) GetId() uint32 {
+	return 161
+}
+
+// Status of DCM attitude estimator.
+type MessageAhrs struct {
+	// X gyro drift estimate.
+	Omegaix float32 `mavname:"omegaIx"`
+	// Y gyro drift estimate.
+	Omegaiy float32 `mavname:"omegaIy"`
+	// Z gyro drift estimate.
+	Omegaiz float32 `mavname:"omegaIz"`
+	// Average accel_weight.
+	AccelWeight float32
+	// Average renormalisation value.
+	RenormVal float32
+	// Average error_roll_pitch value.
+	ErrorRp float32
+	// Average error_yaw value.
+	ErrorYaw float32
+}
+
+func (*MessageAhrs) GetId() uint32 {
+	return 163
+}
+
+// Status of simulation environment, if used.
+type MessageSimstate struct {
+	// Roll angle.
+	Roll float32
+	// Pitch angle.
+	Pitch float32
+	// Yaw angle.
+	Yaw float32
+	// X acceleration.
+	Xacc float32
+	// Y acceleration.
+	Yacc float32
+	// Z acceleration.
+	Zacc float32
+	// Angular speed around X axis.
+	Xgyro float32
+	// Angular speed around Y axis.
+	Ygyro float32
+	// Angular speed around Z axis.
+	Zgyro float32
+	// Latitude.
+	Lat int32
+	// Longitude.
+	Lng int32
+}
+
+func (*MessageSimstate) GetId() uint32 {
+	return 164
+}
+
+// Status of key hardware.
+type MessageHwstatus struct {
+	// Board voltage.
+	Vcc uint16 `mavname:"Vcc"`
+	// I2C error count.
+	I2cerr uint8 `mavname:"I2Cerr"`
+}
+
+func (*MessageHwstatus) GetId() uint32 {
+	return 165
+}
+
+// Status generated by radio.
+type MessageRadio struct {
+	// Local signal strength.
+	Rssi uint8
+	// Remote signal strength.
+	Remrssi uint8
+	// How full the tx buffer is.
+	Txbuf uint8
+	// Background noise level.
+	Noise uint8
+	// Remote background noise level.
+	Remnoise uint8
+	// Receive errors.
+	Rxerrors uint16
+	// Count of error corrected packets.
+	Fixed uint16
+}
+
+func (*MessageRadio) GetId() uint32 {
+	return 166
+}
+
+// Status of AP_Limits. Sent in extended status stream when AP_Limits is enabled.
+type MessageLimitsStatus struct {
+	// State of AP_Limits.
+	LimitsState LIMITS_STATE `mavenum:"uint8"`
+	// Time (since boot) of last breach.
+	LastTrigger uint32
+	// Time (since boot) of last recovery action.
+	LastAction uint32
+	// Time (since boot) of last successful recovery.
+	LastRecovery uint32
+	// Time (since boot) of last all-clear.
+	LastClear uint32
+	// Number of fence breaches.
+	BreachCount uint16
+	// AP_Limit_Module bitfield of enabled modules.
+	ModsEnabled LIMIT_MODULE `mavenum:"uint8"`
+	// AP_Limit_Module bitfield of required modules.
+	ModsRequired LIMIT_MODULE `mavenum:"uint8"`
+	// AP_Limit_Module bitfield of triggered modules.
+	ModsTriggered LIMIT_MODULE `mavenum:"uint8"`
+}
+
+func (*MessageLimitsStatus) GetId() uint32 {
+	return 167
+}
+
+// Wind estimation.
+type MessageWind struct {
+	// Wind direction (that wind is coming from).
+	Direction float32
+	// Wind speed in ground plane.
+	Speed float32
+	// Vertical wind speed.
+	SpeedZ float32
+}
+
+func (*MessageWind) GetId() uint32 {
+	return 168
+}
+
+// Data packet, size 16.
+type MessageData16 struct {
+	// Data type.
+	Type uint8
+	// Data length.
+	Len uint8
+	// Raw data.
+	Data [16]uint8
+}
+
+func (*MessageData16) GetId() uint32 {
+	return 169
+}
+
+// Data packet, size 32.
+type MessageData32 struct {
+	// Data type.
+	Type uint8
+	// Data length.
+	Len uint8
+	// Raw data.
+	Data [32]uint8
+}
+
+func (*MessageData32) GetId() uint32 {
+	return 170
+}
+
+// Data packet, size 64.
+type MessageData64 struct {
+	// Data type.
+	Type uint8
+	// Data length.
+	Len uint8
+	// Raw data.
+	Data [64]uint8
+}
+
+func (*MessageData64) GetId() uint32 {
+	return 171
+}
+
+// Data packet, size 96.
+type MessageData96 struct {
+	// Data type.
+	Type uint8
+	// Data length.
+	Len uint8
+	// Raw data.
+	Data [96]uint8
+}
+
+func (*MessageData96) GetId() uint32 {
+	return 172
+}
+
+// Rangefinder reporting.
+type MessageRangefinder struct {
+	// Distance.
+	Distance float32
+	// Raw voltage if available, zero otherwise.
+	Voltage float32
+}
+
+func (*MessageRangefinder) GetId() uint32 {
+	return 173
+}
+
+// Airspeed auto-calibration.
+type MessageAirspeedAutocal struct {
+	// GPS velocity north.
+	Vx float32
+	// GPS velocity east.
+	Vy float32
+	// GPS velocity down.
+	Vz float32
+	// Differential pressure.
+	DiffPressure float32
+	// Estimated to true airspeed ratio.
+	Eas2tas float32 `mavname:"EAS2TAS"`
+	// Airspeed ratio.
+	Ratio float32
+	// EKF state x.
+	StateX float32
+	// EKF state y.
+	StateY float32
+	// EKF state z.
+	StateZ float32
+	// EKF Pax.
+	Pax float32 `mavname:"Pax"`
+	// EKF Pby.
+	Pby float32 `mavname:"Pby"`
+	// EKF Pcz.
+	Pcz float32 `mavname:"Pcz"`
+}
+
+func (*MessageAirspeedAutocal) GetId() uint32 {
+	return 174
+}
+
+// A rally point. Used to set a point when from GCS -> MAV. Also used to return a point from MAV -> GCS.
+type MessageRallyPoint struct {
+	// System ID.
+	TargetSystem uint8
+	// Component ID.
+	TargetComponent uint8
+	// Point index (first point is 0).
+	Idx uint8
+	// Total number of points (for sanity checking).
+	Count uint8
+	// Latitude of point.
+	Lat int32
+	// Longitude of point.
+	Lng int32
+	// Transit / loiter altitude relative to home.
+	Alt int16
+	// Break altitude relative to home.
+	BreakAlt int16
+	// Heading to aim for when landing.
+	LandDir uint16
+	// Configuration flags.
+	Flags RALLY_FLAGS `mavenum:"uint8"`
+}
+
+func (*MessageRallyPoint) GetId() uint32 {
+	return 175
+}
+
+// Request a current rally point from MAV. MAV should respond with a RALLY_POINT message. MAV should not respond if the request is invalid.
+type MessageRallyFetchPoint struct {
+	// System ID.
+	TargetSystem uint8
+	// Component ID.
+	TargetComponent uint8
+	// Point index (first point is 0).
+	Idx uint8
+}
+
+func (*MessageRallyFetchPoint) GetId() uint32 {
+	return 176
+}
+
+// Status of compassmot calibration.
+type MessageCompassmotStatus struct {
+	// Throttle.
+	Throttle uint16
+	// Current.
+	Current float32
+	// Interference.
+	Interference uint16
+	// Motor Compensation X.
+	Compensationx float32 `mavname:"CompensationX"`
+	// Motor Compensation Y.
+	Compensationy float32 `mavname:"CompensationY"`
+	// Motor Compensation Z.
+	Compensationz float32 `mavname:"CompensationZ"`
+}
+
+func (*MessageCompassmotStatus) GetId() uint32 {
+	return 177
+}
+
+// Status of secondary AHRS filter if available.
+type MessageAhrs2 struct {
+	// Roll angle.
+	Roll float32
+	// Pitch angle.
+	Pitch float32
+	// Yaw angle.
+	Yaw float32
+	// Altitude (MSL).
+	Altitude float32
+	// Latitude.
+	Lat int32
+	// Longitude.
+	Lng int32
+}
+
+func (*MessageAhrs2) GetId() uint32 {
+	return 178
+}
+
+// Camera Event.
+type MessageCameraStatus struct {
+	// Image timestamp (since UNIX epoch, according to camera clock).
+	TimeUsec uint64
+	// System ID.
+	TargetSystem uint8
+	// Camera ID.
+	CamIdx uint8
+	// Image index.
+	ImgIdx uint16
+	// Event type.
+	EventId CAMERA_STATUS_TYPES `mavenum:"uint8"`
+	// Parameter 1 (meaning depends on event_id, see CAMERA_STATUS_TYPES enum).
+	P1 float32
+	// Parameter 2 (meaning depends on event_id, see CAMERA_STATUS_TYPES enum).
+	P2 float32
+	// Parameter 3 (meaning depends on event_id, see CAMERA_STATUS_TYPES enum).
+	P3 float32
+	// Parameter 4 (meaning depends on event_id, see CAMERA_STATUS_TYPES enum).
+	P4 float32
+}
+
+func (*MessageCameraStatus) GetId() uint32 {
+	return 179
+}
+
+// Camera Capture Feedback.
+type MessageCameraFeedback struct {
+	// Image timestamp (since UNIX epoch), as passed in by CAMERA_STATUS message (or autopilot if no CCB).
+	TimeUsec uint64
+	// System ID.
+	TargetSystem uint8
+	// Camera ID.
+	CamIdx uint8
+	// Image index.
+	ImgIdx uint16
+	// Latitude.
+	Lat int32
+	// Longitude.
+	Lng int32
+	// Altitude (MSL).
+	AltMsl float32
+	// Altitude (Relative to HOME location).
+	AltRel float32
+	// Camera Roll angle (earth frame, +-180).
+	Roll float32
+	// Camera Pitch angle (earth frame, +-180).
+	Pitch float32
+	// Camera Yaw (earth frame, 0-360, true).
+	Yaw float32
+	// Focal Length.
+	FocLen float32
+	// Feedback flags.
+	Flags CAMERA_FEEDBACK_FLAGS `mavenum:"uint8"`
+	// Completed image captures.
+	CompletedCaptures uint16 `mavext:"true"`
+}
+
+func (*MessageCameraFeedback) GetId() uint32 {
 	return 180
 }
 
-// Request script item with the sequence number seq. The response of the system to this message should be a SCRIPT_ITEM message.
-type MessageScriptRequest struct {
-	// System ID
-	TargetSystem uint8
-	// Component ID
-	TargetComponent uint8
-	// Sequence
-	Seq uint16
+// 2nd Battery status
+type MessageBattery2 struct {
+	// Voltage.
+	Voltage uint16
+	// Battery current, -1: autopilot does not measure the current.
+	CurrentBattery int16
 }
 
-func (*MessageScriptRequest) GetId() uint32 {
+func (*MessageBattery2) GetId() uint32 {
 	return 181
 }
 
-// Request the overall list of mission items from the system/component.
-type MessageScriptRequestList struct {
-	// System ID
-	TargetSystem uint8
-	// Component ID
-	TargetComponent uint8
+// Status of third AHRS filter if available. This is for ANU research group (Ali and Sean).
+type MessageAhrs3 struct {
+	// Roll angle.
+	Roll float32
+	// Pitch angle.
+	Pitch float32
+	// Yaw angle.
+	Yaw float32
+	// Altitude (MSL).
+	Altitude float32
+	// Latitude.
+	Lat int32
+	// Longitude.
+	Lng int32
+	// Test variable1.
+	V1 float32
+	// Test variable2.
+	V2 float32
+	// Test variable3.
+	V3 float32
+	// Test variable4.
+	V4 float32
 }
 
-func (*MessageScriptRequestList) GetId() uint32 {
+func (*MessageAhrs3) GetId() uint32 {
 	return 182
 }
 
-// This message is emitted as response to SCRIPT_REQUEST_LIST by the MAV to get the number of mission scripts.
-type MessageScriptCount struct {
-	// System ID
+// Request the autopilot version from the system/component.
+type MessageAutopilotVersionRequest struct {
+	// System ID.
 	TargetSystem uint8
-	// Component ID
+	// Component ID.
 	TargetComponent uint8
-	// Number of script items in the sequence
-	Count uint16
 }
 
-func (*MessageScriptCount) GetId() uint32 {
+func (*MessageAutopilotVersionRequest) GetId() uint32 {
 	return 183
 }
 
-// This message informs about the currently active SCRIPT.
-type MessageScriptCurrent struct {
-	// Active Sequence
-	Seq uint16
+// Send a block of log data to remote location.
+type MessageRemoteLogDataBlock struct {
+	// System ID.
+	TargetSystem uint8
+	// Component ID.
+	TargetComponent uint8
+	// Log data block sequence number.
+	Seqno MAV_REMOTE_LOG_DATA_BLOCK_COMMANDS `mavenum:"uint32"`
+	// Log data block.
+	Data [200]uint8
 }
 
-func (*MessageScriptCurrent) GetId() uint32 {
+func (*MessageRemoteLogDataBlock) GetId() uint32 {
 	return 184
+}
+
+// Send Status of each log block that autopilot board might have sent.
+type MessageRemoteLogBlockStatus struct {
+	// System ID.
+	TargetSystem uint8
+	// Component ID.
+	TargetComponent uint8
+	// Log data block sequence number.
+	Seqno uint32
+	// Log data block status.
+	Status MAV_REMOTE_LOG_DATA_BLOCK_STATUSES `mavenum:"uint8"`
+}
+
+func (*MessageRemoteLogBlockStatus) GetId() uint32 {
+	return 185
+}
+
+// Control vehicle LEDs.
+type MessageLedControl struct {
+	// System ID.
+	TargetSystem uint8
+	// Component ID.
+	TargetComponent uint8
+	// Instance (LED instance to control or 255 for all LEDs).
+	Instance uint8
+	// Pattern (see LED_PATTERN_ENUM).
+	Pattern uint8
+	// Custom Byte Length.
+	CustomLen uint8
+	// Custom Bytes.
+	CustomBytes [24]uint8
+}
+
+func (*MessageLedControl) GetId() uint32 {
+	return 186
+}
+
+// Reports progress of compass calibration.
+type MessageMagCalProgress struct {
+	// Compass being calibrated.
+	CompassId uint8
+	// Bitmask of compasses being calibrated.
+	CalMask uint8
+	// Calibration Status.
+	CalStatus MAG_CAL_STATUS `mavenum:"uint8"`
+	// Attempt number.
+	Attempt uint8
+	// Completion percentage.
+	CompletionPct uint8
+	// Bitmask of sphere sections (see http://en.wikipedia.org/wiki/Geodesic_grid).
+	CompletionMask [10]uint8
+	// Body frame direction vector for display.
+	DirectionX float32
+	// Body frame direction vector for display.
+	DirectionY float32
+	// Body frame direction vector for display.
+	DirectionZ float32
+}
+
+func (*MessageMagCalProgress) GetId() uint32 {
+	return 191
+}
+
+// Reports results of completed compass calibration. Sent until MAG_CAL_ACK received.
+type MessageMagCalReport struct {
+	// Compass being calibrated.
+	CompassId uint8
+	// Bitmask of compasses being calibrated.
+	CalMask uint8
+	// Calibration Status.
+	CalStatus MAG_CAL_STATUS `mavenum:"uint8"`
+	// 0=requires a MAV_CMD_DO_ACCEPT_MAG_CAL, 1=saved to parameters.
+	Autosaved uint8
+	// RMS milligauss residuals.
+	Fitness float32
+	// X offset.
+	OfsX float32
+	// Y offset.
+	OfsY float32
+	// Z offset.
+	OfsZ float32
+	// X diagonal (matrix 11).
+	DiagX float32
+	// Y diagonal (matrix 22).
+	DiagY float32
+	// Z diagonal (matrix 33).
+	DiagZ float32
+	// X off-diagonal (matrix 12 and 21).
+	OffdiagX float32
+	// Y off-diagonal (matrix 13 and 31).
+	OffdiagY float32
+	// Z off-diagonal (matrix 32 and 23).
+	OffdiagZ float32
+	// Confidence in orientation (higher is better).
+	OrientationConfidence float32 `mavext:"true"`
+	// orientation before calibration.
+	OldOrientation MAV_SENSOR_ORIENTATION `mavenum:"uint8" mavext:"true"`
+	// orientation after calibration.
+	NewOrientation MAV_SENSOR_ORIENTATION `mavenum:"uint8" mavext:"true"`
+}
+
+func (*MessageMagCalReport) GetId() uint32 {
+	return 192
+}
+
+// EKF Status message including flags and variances.
+type MessageEkfStatusReport struct {
+	// Flags.
+	Flags EKF_STATUS_FLAGS `mavenum:"uint16"`
+	// Velocity variance.
+	VelocityVariance float32
+	// Horizontal Position variance.
+	PosHorizVariance float32
+	// Vertical Position variance.
+	PosVertVariance float32
+	// Compass variance.
+	CompassVariance float32
+	// Terrain Altitude variance.
+	TerrainAltVariance float32
+	// Airspeed variance.
+	AirspeedVariance float32 `mavext:"true"`
+}
+
+func (*MessageEkfStatusReport) GetId() uint32 {
+	return 193
+}
+
+// PID tuning information.
+type MessagePidTuning struct {
+	// Axis.
+	Axis PID_TUNING_AXIS `mavenum:"uint8"`
+	// Desired rate.
+	Desired float32
+	// Achieved rate.
+	Achieved float32
+	// FF component.
+	Ff float32 `mavname:"FF"`
+	// P component.
+	P float32 `mavname:"P"`
+	// I component.
+	I float32 `mavname:"I"`
+	// D component.
+	D float32 `mavname:"D"`
+}
+
+func (*MessagePidTuning) GetId() uint32 {
+	return 194
+}
+
+// Deepstall path planning.
+type MessageDeepstall struct {
+	// Landing latitude.
+	LandingLat int32
+	// Landing longitude.
+	LandingLon int32
+	// Final heading start point, latitude.
+	PathLat int32
+	// Final heading start point, longitude.
+	PathLon int32
+	// Arc entry point, latitude.
+	ArcEntryLat int32
+	// Arc entry point, longitude.
+	ArcEntryLon int32
+	// Altitude.
+	Altitude float32
+	// Distance the aircraft expects to travel during the deepstall.
+	ExpectedTravelDistance float32
+	// Deepstall cross track error (only valid when in DEEPSTALL_STAGE_LAND).
+	CrossTrackError float32
+	// Deepstall stage.
+	Stage DEEPSTALL_STAGE `mavenum:"uint8"`
+}
+
+func (*MessageDeepstall) GetId() uint32 {
+	return 195
+}
+
+// 3 axis gimbal measurements.
+type MessageGimbalReport struct {
+	// System ID.
+	TargetSystem uint8
+	// Component ID.
+	TargetComponent uint8
+	// Time since last update.
+	DeltaTime float32
+	// Delta angle X.
+	DeltaAngleX float32
+	// Delta angle Y.
+	DeltaAngleY float32
+	// Delta angle X.
+	DeltaAngleZ float32
+	// Delta velocity X.
+	DeltaVelocityX float32
+	// Delta velocity Y.
+	DeltaVelocityY float32
+	// Delta velocity Z.
+	DeltaVelocityZ float32
+	// Joint ROLL.
+	JointRoll float32
+	// Joint EL.
+	JointEl float32
+	// Joint AZ.
+	JointAz float32
+}
+
+func (*MessageGimbalReport) GetId() uint32 {
+	return 200
+}
+
+// Control message for rate gimbal.
+type MessageGimbalControl struct {
+	// System ID.
+	TargetSystem uint8
+	// Component ID.
+	TargetComponent uint8
+	// Demanded angular rate X.
+	DemandedRateX float32
+	// Demanded angular rate Y.
+	DemandedRateY float32
+	// Demanded angular rate Z.
+	DemandedRateZ float32
+}
+
+func (*MessageGimbalControl) GetId() uint32 {
+	return 201
+}
+
+// 100 Hz gimbal torque command telemetry.
+type MessageGimbalTorqueCmdReport struct {
+	// System ID.
+	TargetSystem uint8
+	// Component ID.
+	TargetComponent uint8
+	// Roll Torque Command.
+	RlTorqueCmd int16
+	// Elevation Torque Command.
+	ElTorqueCmd int16
+	// Azimuth Torque Command.
+	AzTorqueCmd int16
+}
+
+func (*MessageGimbalTorqueCmdReport) GetId() uint32 {
+	return 214
+}
+
+// Heartbeat from a HeroBus attached GoPro.
+type MessageGoproHeartbeat struct {
+	// Status.
+	Status GOPRO_HEARTBEAT_STATUS `mavenum:"uint8"`
+	// Current capture mode.
+	CaptureMode GOPRO_CAPTURE_MODE `mavenum:"uint8"`
+	// Additional status bits.
+	Flags GOPRO_HEARTBEAT_FLAGS `mavenum:"uint8"`
+}
+
+func (*MessageGoproHeartbeat) GetId() uint32 {
+	return 215
+}
+
+// Request a GOPRO_COMMAND response from the GoPro.
+type MessageGoproGetRequest struct {
+	// System ID.
+	TargetSystem uint8
+	// Component ID.
+	TargetComponent uint8
+	// Command ID.
+	CmdId GOPRO_COMMAND `mavenum:"uint8"`
+}
+
+func (*MessageGoproGetRequest) GetId() uint32 {
+	return 216
+}
+
+// Response from a GOPRO_COMMAND get request.
+type MessageGoproGetResponse struct {
+	// Command ID.
+	CmdId GOPRO_COMMAND `mavenum:"uint8"`
+	// Status.
+	Status GOPRO_REQUEST_STATUS `mavenum:"uint8"`
+	// Value.
+	Value [4]uint8
+}
+
+func (*MessageGoproGetResponse) GetId() uint32 {
+	return 217
+}
+
+// Request to set a GOPRO_COMMAND with a desired.
+type MessageGoproSetRequest struct {
+	// System ID.
+	TargetSystem uint8
+	// Component ID.
+	TargetComponent uint8
+	// Command ID.
+	CmdId GOPRO_COMMAND `mavenum:"uint8"`
+	// Value.
+	Value [4]uint8
+}
+
+func (*MessageGoproSetRequest) GetId() uint32 {
+	return 218
+}
+
+// Response from a GOPRO_COMMAND set request.
+type MessageGoproSetResponse struct {
+	// Command ID.
+	CmdId GOPRO_COMMAND `mavenum:"uint8"`
+	// Status.
+	Status GOPRO_REQUEST_STATUS `mavenum:"uint8"`
+}
+
+func (*MessageGoproSetResponse) GetId() uint32 {
+	return 219
+}
+
+// RPM sensor output.
+type MessageRpm struct {
+	// RPM Sensor1.
+	Rpm1 float32
+	// RPM Sensor2.
+	Rpm2 float32
+}
+
+func (*MessageRpm) GetId() uint32 {
+	return 226
+}
+
+// Read registers for a device.
+type MessageDeviceOpRead struct {
+	// System ID.
+	TargetSystem uint8
+	// Component ID.
+	TargetComponent uint8
+	// Request ID - copied to reply.
+	RequestId uint32
+	// The bus type.
+	Bustype DEVICE_OP_BUSTYPE `mavenum:"uint8"`
+	// Bus number.
+	Bus uint8
+	// Bus address.
+	Address uint8
+	// Name of device on bus (for SPI).
+	Busname string `mavlen:"40"`
+	// First register to read.
+	Regstart uint8
+	// Count of registers to read.
+	Count uint8
+}
+
+func (*MessageDeviceOpRead) GetId() uint32 {
+	return 11000
+}
+
+// Read registers reply.
+type MessageDeviceOpReadReply struct {
+	// Request ID - copied from request.
+	RequestId uint32
+	// 0 for success, anything else is failure code.
+	Result uint8
+	// Starting register.
+	Regstart uint8
+	// Count of bytes read.
+	Count uint8
+	// Reply data.
+	Data [128]uint8
+}
+
+func (*MessageDeviceOpReadReply) GetId() uint32 {
+	return 11001
+}
+
+// Write registers for a device.
+type MessageDeviceOpWrite struct {
+	// System ID.
+	TargetSystem uint8
+	// Component ID.
+	TargetComponent uint8
+	// Request ID - copied to reply.
+	RequestId uint32
+	// The bus type.
+	Bustype DEVICE_OP_BUSTYPE `mavenum:"uint8"`
+	// Bus number.
+	Bus uint8
+	// Bus address.
+	Address uint8
+	// Name of device on bus (for SPI).
+	Busname string `mavlen:"40"`
+	// First register to write.
+	Regstart uint8
+	// Count of registers to write.
+	Count uint8
+	// Write data.
+	Data [128]uint8
+}
+
+func (*MessageDeviceOpWrite) GetId() uint32 {
+	return 11002
+}
+
+// Write registers reply.
+type MessageDeviceOpWriteReply struct {
+	// Request ID - copied from request.
+	RequestId uint32
+	// 0 for success, anything else is failure code.
+	Result uint8
+}
+
+func (*MessageDeviceOpWriteReply) GetId() uint32 {
+	return 11003
+}
+
+// Adaptive Controller tuning information.
+type MessageAdapTuning struct {
+	// Axis.
+	Axis PID_TUNING_AXIS `mavenum:"uint8"`
+	// Desired rate.
+	Desired float32
+	// Achieved rate.
+	Achieved float32
+	// Error between model and vehicle.
+	Error float32
+	// Theta estimated state predictor.
+	Theta float32
+	// Omega estimated state predictor.
+	Omega float32
+	// Sigma estimated state predictor.
+	Sigma float32
+	// Theta derivative.
+	ThetaDot float32
+	// Omega derivative.
+	OmegaDot float32
+	// Sigma derivative.
+	SigmaDot float32
+	// Projection operator value.
+	F float32
+	// Projection operator derivative.
+	FDot float32
+	// u adaptive controlled output command.
+	U float32
+}
+
+func (*MessageAdapTuning) GetId() uint32 {
+	return 11010
+}
+
+// Camera vision based attitude and position deltas.
+type MessageVisionPositionDelta struct {
+	// Timestamp (synced to UNIX time or since system boot).
+	TimeUsec uint64
+	// Time since the last reported camera frame.
+	TimeDeltaUsec uint64
+	// Defines a rotation vector in body frame that rotates the vehicle from the previous to the current orientation.
+	AngleDelta [3]float32
+	// Change in position from previous to current frame rotated into body frame (0=forward, 1=right, 2=down).
+	PositionDelta [3]float32
+	// Normalised confidence value from 0 to 100.
+	Confidence float32
+}
+
+func (*MessageVisionPositionDelta) GetId() uint32 {
+	return 11011
+}
+
+// Angle of Attack and Side Slip Angle.
+type MessageAoaSsa struct {
+	// Timestamp (since boot or Unix epoch).
+	TimeUsec uint64
+	// Angle of Attack.
+	Aoa float32 `mavname:"AOA"`
+	// Side Slip Angle.
+	Ssa float32 `mavname:"SSA"`
+}
+
+func (*MessageAoaSsa) GetId() uint32 {
+	return 11020
+}
+
+// ESC Telemetry Data for ESCs 1 to 4, matching data sent by BLHeli ESCs.
+type MessageEscTelemetry_1To_4 struct {
+	// Temperature.
+	Temperature [4]uint8
+	// Voltage.
+	Voltage [4]uint16
+	// Current.
+	Current [4]uint16
+	// Total current.
+	Totalcurrent [4]uint16
+	// RPM (eRPM).
+	Rpm [4]uint16
+	// count of telemetry packets received (wraps at 65535).
+	Count [4]uint16
+}
+
+func (*MessageEscTelemetry_1To_4) GetId() uint32 {
+	return 11030
+}
+
+// ESC Telemetry Data for ESCs 5 to 8, matching data sent by BLHeli ESCs.
+type MessageEscTelemetry_5To_8 struct {
+	// Temperature.
+	Temperature [4]uint8
+	// Voltage.
+	Voltage [4]uint16
+	// Current.
+	Current [4]uint16
+	// Total current.
+	Totalcurrent [4]uint16
+	// RPM (eRPM).
+	Rpm [4]uint16
+	// count of telemetry packets received (wraps at 65535).
+	Count [4]uint16
+}
+
+func (*MessageEscTelemetry_5To_8) GetId() uint32 {
+	return 11031
+}
+
+// ESC Telemetry Data for ESCs 9 to 12, matching data sent by BLHeli ESCs.
+type MessageEscTelemetry_9To_12 struct {
+	// Temperature.
+	Temperature [4]uint8
+	// Voltage.
+	Voltage [4]uint16
+	// Current.
+	Current [4]uint16
+	// Total current.
+	Totalcurrent [4]uint16
+	// RPM (eRPM).
+	Rpm [4]uint16
+	// count of telemetry packets received (wraps at 65535).
+	Count [4]uint16
+}
+
+func (*MessageEscTelemetry_9To_12) GetId() uint32 {
+	return 11032
 }

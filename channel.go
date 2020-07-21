@@ -19,8 +19,8 @@ type Channel struct {
 	allWritten chan struct{}
 }
 
-func newChannel(n *Node, e Endpoint, label string, rwc io.ReadWriteCloser) *Channel {
-	parser, _ := NewParser(ParserConf{
+func newChannel(n *Node, e Endpoint, label string, rwc io.ReadWriteCloser) (*Channel, error) {
+	parser, err := NewParser(ParserConf{
 		Reader:             rwc,
 		Writer:             rwc,
 		Dialect:            n.conf.Dialect,
@@ -31,8 +31,11 @@ func newChannel(n *Node, e Endpoint, label string, rwc io.ReadWriteCloser) *Chan
 		OutSignatureLinkId: randomByte(),
 		OutKey:             n.conf.OutKey,
 	})
+	if err != nil {
+		return nil, err
+	}
 
-	ch := &Channel{
+	return &Channel{
 		Endpoint:   e,
 		label:      label,
 		rwc:        rwc,
@@ -40,9 +43,7 @@ func newChannel(n *Node, e Endpoint, label string, rwc io.ReadWriteCloser) *Chan
 		parser:     parser,
 		writeChan:  make(chan interface{}),
 		allWritten: make(chan struct{}),
-	}
-
-	return ch
+	}, nil
 }
 
 // String implements fmt.Stringer and returns the channel label.
@@ -63,7 +64,7 @@ func (ch *Channel) run() {
 	// reader
 	readerDone := make(chan struct{})
 	go func() {
-		defer func() { readerDone <- struct{}{} }()
+		defer close(readerDone)
 		defer func() { ch.n.eventsOut <- &EventChannelClose{ch} }()
 		defer func() { ch.n.eventsIn <- &eventInChannelClosed{ch} }()
 
@@ -93,20 +94,16 @@ func (ch *Channel) run() {
 	// writer
 	writerDone := make(chan struct{})
 	go func() {
-		defer func() { writerDone <- struct{}{} }()
+		defer close(writerDone)
 		defer func() { ch.allWritten <- struct{}{} }()
 
 		for what := range ch.writeChan {
 			switch wh := what.(type) {
 			case Message:
-				if ch.n.conf.OutVersion == V1 {
-					ch.parser.Write(&FrameV1{Message: wh}, false)
-				} else {
-					ch.parser.Write(&FrameV2{Message: wh}, false)
-				}
+				ch.parser.WriteMessage(wh)
 
 			case Frame:
-				ch.parser.Write(wh, true)
+				ch.parser.WriteFrame(wh)
 			}
 		}
 	}()
